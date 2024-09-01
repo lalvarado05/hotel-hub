@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
+  username: <%= ENV["USERNAME_DB"] %>
+  password: <%= ENV["PASSWORD_DB"] %>
+  host: localhost
+  port: 1234
+
+development:
+  <<: *default
+  database: HotelDB
+
+test:
+  <<: *default
+  database: HotelDB_test
+
+production:
+  <<: *default
+  database: HotelDB
+  username: <%= ENV["USERNAME_DB"] %>
+  password: <%= ENV["PASSWORD_DB"] %>
