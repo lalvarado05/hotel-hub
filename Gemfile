@@ -8,7 +8,7 @@ gem 'dotenv-rails'                        # Loads environment variables from a .
 gem 'devise'                              # Flexible authentication solution for Rails
 gem 'htmlbeautifier'                      # Beautifies HTML code
 gem 'popper_js', '>= 2.9.3', '< 3.0.0'    # A kickass library used to manage poppers in web applications
-gem 'bootstrap', '~> 5.1.0'               # Sleek, intuitive, and powerful front-end framework for faster and easier web development
+gem 'bootstrap', '~> 5.3.3'               # Sleek, intuitive, and powerful front-end framework for faster and easier web development
 gem 'jquery-rails'                        # jQuery! For Rails! So great
 
 
