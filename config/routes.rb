@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :responses
+  resources :reviews
+  resources :reservations
+  resources :room_beds
+  resources :room_services
+  resources :beds
+  resources :services
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }

@@ -1,0 +1,2 @@
+module RoomBedsHelper
+end
