@@ -1,0 +1,2 @@
+module RoomServicesHelper
+end

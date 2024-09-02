@@ -1,0 +1,12 @@
+<% content_for :title, "Editing room service" %>
+
+<h1>Editing room service</h1>
+
+<%= render "form", room_service: @room_service %>
+
+<br>
+
+<div>
+  <%= link_to "Show this room service", @room_service %> |
+  <%= link_to "Back to room services", room_services_path %>
+</div>
