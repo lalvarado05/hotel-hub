@@ -4,4 +4,5 @@ class Reservation < ApplicationRecord
 
   validates :check_in_date, :check_out_date, presence: true
   validates :status, presence: true, inclusion: { in: %w[booked checked_in checked_out canceled] }
+  validates :confirmation_code, presence: true, uniqueness: true
 end
