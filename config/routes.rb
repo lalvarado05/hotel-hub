@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
   resources :users
-  resources :rooms
+  resources :rooms do
+    collection do
+      get 'search'
+    end
+  end
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

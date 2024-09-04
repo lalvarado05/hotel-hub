@@ -19,6 +19,10 @@ class RoomsController < ApplicationController
   def edit
   end
 
+  def search
+    @rooms = Room.all
+  end
+
   # POST /rooms or /rooms.json
   def create
     @room = Room.new(room_params)
