@@ -12,7 +12,7 @@ gem 'bootstrap', '~> 5.3.3'               # Sleek, intuitive, and powerful front
 gem 'jquery-rails'                        # jQuery! For Rails! So great
 # gem 'simple_calendar'                     # A simple calendar for Rails
 gem 'cancancan'                           # The authorization Gem for Ruby on Rails
-
+gem 'image_processing', '~> 1.2'
 
 gem "rails", "~> 7.2.1"
 gem "sprockets-rails"

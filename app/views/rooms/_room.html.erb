@@ -3,15 +3,17 @@
     <strong>Name:</strong>
     <%= room.name %>
   </p>
-
   <p>
     <strong>Price:</strong>
     <%= room.price %>
   </p>
-
   <p>
     <strong>Available:</strong>
     <%= room.available %>
   </p>
-
+  <% if room.image.attached? %>
+    <%= image_tag room.image, alt: room.name %>
+  <% else %>
+    <p>No image available</p>
+  <% end %>
 </div>
