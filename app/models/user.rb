@@ -1,11 +1,10 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
+  # Associations
   has_many :reservations, dependent: :destroy
-
   has_many :reviews, dependent: :destroy
   has_many :responses, dependent: :destroy
 
@@ -15,5 +14,12 @@ class User < ApplicationRecord
   validates :phone_number, presence: true, format: { with: /\A\d{8}\z/, message: "must be 8 digits" }
   validates :role, presence: true, inclusion: { in: %w[admin client], message: "%{value} is not a valid role" }
 
+  # Methods
+  def admin?
+    role == 'admin'
+  end
+  def client?
+    role == 'client'
+  end
 
 end

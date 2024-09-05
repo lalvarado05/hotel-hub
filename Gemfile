@@ -10,8 +10,8 @@ gem 'htmlbeautifier'                      # Beautifies HTML code
 gem 'popper_js', '>= 2.9.3', '< 3.0.0'    # A kickass library used to manage poppers in web applications
 gem 'bootstrap', '~> 5.3.3'               # Sleek, intuitive, and powerful front-end framework for faster and easier web development
 gem 'jquery-rails'                        # jQuery! For Rails! So great
-gem 'simple_calendar'                     # A simple calendar for Rails
-
+# gem 'simple_calendar'                     # A simple calendar for Rails
+gem 'cancancan'                           # The authorization Gem for Ruby on Rails
 
 
 gem "rails", "~> 7.2.1"

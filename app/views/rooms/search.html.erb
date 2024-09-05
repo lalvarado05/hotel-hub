@@ -76,12 +76,4 @@
       <%= link_to "New room", new_room_path, class: "btn btn-success" %>
     </div>
   </div>
-  <%= month_calendar do |date| %>
-    <div class="day">
-      <%= link_to date.day, '#', class: 'day-link' %>
-    </div>
-  <% end %>
-  <%= month_calendar do |date| %>
-    <%= date %>
-  <% end %>
 </div>

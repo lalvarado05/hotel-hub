@@ -1,6 +1,8 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!, except: [:index, :show, :search]                # Devise
+  load_and_authorize_resource                                                       # Cancancan
+ 
   # GET /rooms or /rooms.json
   def index
     @rooms = Room.all
