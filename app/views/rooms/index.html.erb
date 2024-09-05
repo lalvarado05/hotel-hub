@@ -1,12 +1,14 @@
-<!-- <p style="color: green"><%= notice %></p> -->
 <% content_for :title, "Rooms" %>
-<h1>Rooms</h1>
-<div id="rooms">
-  <% @rooms.each do |room| %>
-    <%= render room %>
-    <p>
-      <%= link_to "Show this room", room %>
-    </p>
-  <% end %>
+<div class="mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Rooms</h1>
+    <%= link_to "Add New Room", new_room_path, class: "btn btn-success btn" %>
+  </div>
+  <div class="row" id="rooms">
+    <% @rooms.each do |room| %>
+      <div class="col-md-4 mb-4 d-flex">
+        <%= render room %>
+      </div>
+    <% end %>
+  </div>
 </div>
-<%= link_to "New room", new_room_path %>

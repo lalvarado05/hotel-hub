@@ -1,17 +1,50 @@
-<div id="<%= dom_id room %>">
-  <p>
-    <strong>Name:</strong>
-    <%= room.name %>
-  </p>
-
-  <p>
-    <strong>Price:</strong>
-    <%= room.price %>
-  </p>
-
-  <p>
-    <strong>Available:</strong>
-    <%= room.available %>
-  </p>
-
+<div id="<%= dom_id room %>" class="card mb-4 shadow-sm h-100 d-flex flex-column">
+  <% if room.image.attached? %>
+    <%= image_tag room.image.variant(resize_to_fill: [288, 200]).processed, alt: room.name, class: "card-img-top" %>
+  <% else %>
+    <div class="card-img-top text-center bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+      <p class="text-muted">No image available</p>
+    </div>
+  <% end %>
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title mb-3 text-center"><%= room.name %></h5>
+    <!-- Using Bootstrap Grid for compact layout -->
+    <div class="row mb-3">
+      <div class="col-6">
+        <p class="card-text">
+          <strong>Price:</strong> $<%= room.price %>
+        </p>
+        <p class="card-text">
+          <strong>Available:</strong> <%= room.available ? 'Yes' : 'No' %>
+        </p>
+      </div>
+      <div class="col-6">
+        <p class="card-text">
+          <strong>Capacity:</strong> <%= room.capacity %>
+        </p>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-6">
+        <strong>Beds:</strong>
+        <ul class="list-group list-group-flush">
+          <% room.beds.each do |bed| %>
+            <li class="list-group-item px-0"><%= bed.name %> (<%= bed.capacity %>)</li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="col-6">
+        <strong>Services:</strong>
+        <ul class="list-group list-group-flush">
+          <% room.services.each do |service| %>
+            <li class="list-group-item px-0"><%= service.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-auto d-flex justify-content-start">
+      <%= link_to "Edit", edit_room_path(room), class: "btn btn-primary me-2" %>
+      <%= button_to "Delete", room, method: :delete, class: "btn btn-danger", data: { turbo_confirm: "Are you sure you want to destroy this room?" } %>
+    </div>
+  </div>
 </div>
