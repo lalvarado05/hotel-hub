@@ -11,10 +11,10 @@ class User < ApplicationRecord
   # Validations
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :phone_number, presence: true, format: { with: /\A\d{8}\z/, message: "must be 8 digits" }
+  validates :phone_number, presence: true, uniqueness: true, format: { with: /\A\d{8}\z/, message: "must be 8 digits" }
   validates :role, presence: true, inclusion: { in: %w[admin client], message: "%{value} is not a valid role" }
 
-  # Methods
+  # M
   def admin?
     role == 'admin'
   end

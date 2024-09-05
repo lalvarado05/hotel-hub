@@ -1,11 +1,10 @@
-<% content_for :title, "New room" %>
-
-<h1>New room</h1>
-
-<%= render "form", room: @room %>
-
-<br>
-
-<div>
-  <%= link_to "Back to rooms", rooms_path %>
+<% content_for :title, "New Room" %>
+<div class="mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Create New Room</h1>
+    <%= link_to "Back to Rooms", rooms_path, class: "btn btn-secondary" %>
+  </div>
+  <div class="card shadow-sm p-4 mb-4">
+    <%= render "form", room: @room %>
+  </div>
 </div>

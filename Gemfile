@@ -10,9 +10,12 @@ gem 'htmlbeautifier'                      # Beautifies HTML code
 gem 'popper_js', '>= 2.9.3', '< 3.0.0'    # A kickass library used to manage poppers in web applications
 gem 'bootstrap', '~> 5.3.3'               # Sleek, intuitive, and powerful front-end framework for faster and easier web development
 gem 'jquery-rails'                        # jQuery! For Rails! So great
-# gem 'simple_calendar'                     # A simple calendar for Rails
+# gem 'simple_calendar'                   # A simple calendar for Rails
 gem 'cancancan'                           # The authorization Gem for Ruby on Rails
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.13'         # High-level image processing wrapper for libvips and ImageMagick/GraphicsMagick
+gem 'active_storage_validations'          # ActiveStorage validations for Rails
+gem 'mini_magick'                         # Manipulate images with minimal use of memory via ImageMagick / GraphicsMagick
+
 
 gem "rails", "~> 7.2.1"
 gem "sprockets-rails"

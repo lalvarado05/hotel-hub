@@ -1,31 +1,57 @@
-<%= form_with(model: room) do |form| %>
-  <% if room.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(room.errors.count, "error") %> prohibited this room from being saved:</h2>
-      <ul>
-        <% room.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+<div class="d-flex justify-content-center align-items-center">
+  <div class="card shadow p-4" style="width: 500px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Room details</h3>
+      <%= form_with(model: room, local: true, class: "needs-validation") do |form| %>
+        <% if room.errors.any? %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h4 class="alert-heading"><%= pluralize(room.errors.count, "error") %> prohibited this room from being saved:</h4>
+            <ul>
+              <% room.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
         <% end %>
-      </ul>
+        <div class="mb-3">
+          <%= form.label :name, class: "form-label" %>
+          <%= form.text_field :name, class: "form-control" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :price, class: "form-label" %>
+          <%= form.text_field :price, class: "form-control" %>
+        </div>
+        <div class="form-check mb-3">
+          <%= form.check_box :available, class: "form-check-input" %>
+          <%= form.label :available, class: "form-check-label" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :beds, class: "form-label" %><br />
+          <%= collection_check_boxes(:room, :bed_ids, @beds, :id, :name) do |b| %>
+            <div class="form-check">
+              <%= b.check_box(class: "form-check-input") %>
+              <%= b.label(class: "form-check-label") %>
+            </div>
+          <% end %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :services, class: "form-label" %><br />
+          <%= collection_check_boxes(:room, :service_ids, @services, :id, :name) do |s| %>
+            <div class="form-check">
+              <%= s.check_box(class: "form-check-input") %>
+              <%= s.label(class: "form-check-label") %>
+            </div>
+          <% end %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :image, class: "form-label" %>
+          <%= form.file_field :image, class: "form-control" %>
+        </div>
+        <div class="d-grid">
+          <%= form.submit "Save Room", class: "btn btn-primary" %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
   </div>
-  <div>
-    <%= form.label :price, style: "display: block" %>
-    <%= form.text_field :price %>
-  </div>
-  <div>
-    <%= form.label :available, style: "display: block" %>
-    <%= form.check_box :available %>
-  </div>
-  <div class="field">
-    <%= form.label :image %>
-    <%= form.file_field :image %>
-  </div>
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
