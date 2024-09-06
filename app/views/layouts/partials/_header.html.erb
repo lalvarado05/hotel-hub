@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <%= link_to "Hotel Hub", search_rooms_path, class: "navbar-brand" %>
+    <%= link_to search_rooms_path, class: "navbar-brand d-flex align-items-center" do %>
+      <%= image_tag("sakura.png", alt: "Sakura Stay", class: "img-fluid", style: "width: 75px; height: auto; margin-right: 10px;") %>
+      <span>Sakura Stay</span>
+    <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

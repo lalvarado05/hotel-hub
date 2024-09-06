@@ -1,12 +1,10 @@
-<% content_for :title, "Editing user" %>
-
-<h1>Editing user</h1>
-
-<%= render "form", user: @user %>
-
-<br>
-
-<div>
-  <%= link_to "Show this user", @user %> |
-  <%= link_to "Back to users", users_path %>
+<% content_for :title, "Editing User" %>
+<div class="container mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Edit user</h1>
+    <%= link_to "Back to Users", users_path, class: "btn btn-secondary" %>
+  </div>
+  <div class="card shadow-sm p-4 mb-4">
+    <%= render "form", user: @user %>
+  </div>
 </div>

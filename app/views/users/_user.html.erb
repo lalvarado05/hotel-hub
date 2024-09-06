@@ -1,27 +1,13 @@
-<div id="<%= dom_id user %>">
-  <p>
-    <strong>First name:</strong>
-    <%= user.first_name %>
-  </p>
-
-  <p>
-    <strong>Last name:</strong>
-    <%= user.last_name %>
-  </p>
-
-  <p>
-    <strong>Phone number:</strong>
-    <%= user.phone_number %>
-  </p>
-
-  <p>
-    <strong>Role:</strong>
-    <%= user.role %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
-    <%= user.email %>
-  </p>
-
-</div>
+<tr id="<%= dom_id user %>">
+  <td><%= user.first_name %></td>
+  <td><%= user.last_name %></td>
+  <td><%= user.phone_number %></td>
+  <td><%= user.role.capitalize %></td>
+  <td><%= user.email %></td>
+  <td class="d-flex">
+    <%= link_to "Edit", edit_user_path(user), class: "btn btn-secondary btn-sm me-2" %>
+    <div>
+      <%= button_to "Delete", user, method: :delete, class: "btn btn-danger btn-sm", data: { turbo_confirm: "Are you sure?" }, form_class: 'd-inline' %>
+    </div>
+  </td>
+</tr>
