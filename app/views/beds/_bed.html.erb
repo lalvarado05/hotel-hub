@@ -1,12 +1,31 @@
-<div id="<%= dom_id bed %>">
-  <p>
-    <strong>Name:</strong>
-    <%= bed.name %>
-  </p>
-
-  <p>
-    <strong>Capacity:</strong>
-    <%= bed.capacity %>
-  </p>
-
-</div>
+<tr id="<%= dom_id bed %>">
+  <td><%= bed.name %></td>
+  <td><%= bed.capacity %></td>
+  <td>
+    <% if bed.rooms.any? %>
+      <ul class="list-unstyled">
+        <% bed.rooms.limit(3).each do |room| %>
+          <li><%= room.name %></li>
+        <% end %>
+        <% if bed.rooms.count > 3 %>
+          <li>
+            <a href="#" class="text-primary" data-bs-toggle="collapse" data-bs-target="#rooms-<%= bed.id %>">View More</a>
+          </li>
+          <ul class="collapse list-unstyled" id="rooms-<%= bed.id %>">
+            <% bed.rooms.offset(3).each do |room| %>
+              <li><%= room.name %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </ul>
+    <% else %>
+      <span class="text-muted">No associated rooms</span>
+    <% end %>
+  </td>
+  <td>
+    <div class="d-flex">
+      <%= link_to "Edit", edit_bed_path(bed), class: "btn btn-secondary btn-sm me-2" %>
+      <%= button_to "Delete", bed, method: :delete, class: "btn btn-danger btn-sm", data: { turbo_confirm: "Are you sure?" } %>
+    </div>
+  </td>
+</tr>

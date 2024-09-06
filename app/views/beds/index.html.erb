@@ -1,16 +1,22 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Beds" %>
-
-<h1>Beds</h1>
-
-<div id="beds">
-  <% @beds.each do |bed| %>
-    <%= render bed %>
-    <p>
-      <%= link_to "Show this bed", bed %>
-    </p>
-  <% end %>
+<div class="container mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Beds</h1>
+    <%= link_to "Add New Bed", new_bed_path, class: "btn btn-success" %>
+  </div>
+  <table class="table table-striped table-hover shadow-sm">
+    <thead class="table-light">
+      <tr>
+        <th>Name</th>
+        <th>Capacity</th>
+        <th>Associated Rooms</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @beds.each do |bed| %>
+        <%= render bed %>
+      <% end %>
+    </tbody>
+  </table>
 </div>
-
-<%= link_to "New bed", new_bed_path %>

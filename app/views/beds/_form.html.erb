@@ -1,27 +1,24 @@
-<%= form_with(model: bed) do |form| %>
+<%= form_with(model: bed, local: true, class: "needs-validation") do |form| %>
   <% if bed.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(bed.errors.count, "error") %> prohibited this bed from being saved:</h2>
-
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <h4 class="alert-heading"><%= pluralize(bed.errors.count, "error") %> prohibited this bed from being saved:</h4>
       <ul>
         <% bed.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", required: true %>
   </div>
-
-  <div>
-    <%= form.label :capacity, style: "display: block" %>
-    <%= form.number_field :capacity %>
+  <div class="mb-3">
+    <%= form.label :capacity, class: "form-label" %>
+    <%= form.number_field :capacity, class: "form-control", required: true %>
   </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="d-grid">
+    <%= form.submit "Save Bed", class: "btn btn-primary" %>
   </div>
 <% end %>
