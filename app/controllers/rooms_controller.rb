@@ -46,7 +46,7 @@ class RoomsController < ApplicationController
           end
         end
 
-        format.html { redirect_to room_url(@room), notice: "Room was successfully created." }
+        format.html { redirect_to rooms_url, notice: "Room was successfully created." }
         format.json { render :show, status: :created, location: @room }
       else
         @beds = Bed.all
