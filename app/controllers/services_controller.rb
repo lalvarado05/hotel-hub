@@ -25,7 +25,7 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       if @service.save
-        format.html { redirect_to service_url(@service), notice: "Service was successfully created." }
+        format.html { redirect_to services_url, notice: "Service was successfully created." }
         format.json { render :show, status: :created, location: @service }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,11 +49,19 @@ class ServicesController < ApplicationController
 
   # DELETE /services/1 or /services/1.json
   def destroy
-    @service.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to services_url, notice: "Service was successfully destroyed." }
-      format.json { head :no_content }
+    @service = Service.find(params[:id])
+  
+    if @service.rooms.any?
+      respond_to do |format|
+        format.html { redirect_to services_url, alert: "Cannot delete service as it is associated with rooms." }
+        format.json { render json: { error: "Service is associated with rooms." }, status: :unprocessable_entity }
+      end
+    else
+      @service.destroy!
+      respond_to do |format|
+        format.html { redirect_to services_url, notice: "Service was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
   end
 

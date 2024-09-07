@@ -25,7 +25,7 @@ class BedsController < ApplicationController
 
     respond_to do |format|
       if @bed.save
-        format.html { redirect_to bed_url(@bed), notice: "Bed was successfully created." }
+        format.html { redirect_to beds_url, notice: "Bed was successfully created." }
         format.json { render :show, status: :created, location: @bed }
       else
         format.html { render :new, status: :unprocessable_entity }
