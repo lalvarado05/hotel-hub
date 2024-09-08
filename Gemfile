@@ -15,6 +15,7 @@ gem 'cancancan'                           # The authorization Gem for Ruby on Ra
 gem 'image_processing', '~> 1.13'         # High-level image processing wrapper for libvips and ImageMagick/GraphicsMagick
 gem 'active_storage_validations'          # ActiveStorage validations for Rails
 gem 'mini_magick'                         # Manipulate images with minimal use of memory via ImageMagick / GraphicsMagick
+gem "sidekiq", "~> 7.3"                   # Simple, efficient background processing for Ruby
 
 
 gem "rails", "~> 7.2.1"
@@ -33,8 +34,10 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
-
-  gem 'pry-byebug', '~> 3.10', '>= 3.10.1'  # Adds step-by-step debugging and stack navigation capabilities to Pry
+  
+  # pry-byebug giving issues
+  # gem 'pry-byebug', '~> 3.10', '>= 3.10.1'  # Adds step-by-step debugging and stack navigation capabilities to Pry
+  gem 'byebug', '~> 11.1', '>= 11.1.3'
 
 end
 
