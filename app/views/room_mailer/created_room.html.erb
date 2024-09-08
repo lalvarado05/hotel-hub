@@ -1,0 +1,21 @@
+<h1>Test</h1>
+<%= @room.name %>
+<p>
+  Thank you for creating a new room at Hotel Hub. Here are the details of the room:
+</p>
+<p>
+  Room Name: <%= @room.name %>
+</p>
+<p>
+  Number of Beds: <%= @room.beds %>
+</p>
+<p>
+  Services: <%= @room.services.join(", ") %>
+</p>
+<p>
+  If you have any questions or need further assistance, please don't hesitate to contact us.
+</p>
+<p>
+  Best regards,
+  Hotel Hub Team
+</p>

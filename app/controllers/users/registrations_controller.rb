@@ -10,9 +10,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    if resource.persisted?
+      @user = User.find(resource.id)
+      UserMailer.new_user(@user).deliver_now
+    end
+  end
 
   # GET /resource/edit
   # def edit

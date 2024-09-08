@@ -28,18 +28,17 @@ class RoomsController < ApplicationController
   # POST /rooms or /rooms.json
   def create
     @room = Room.new(room_params)
-
+    @current_user = current_user
     respond_to do |format|
       if @room.save
-        # Create room_beds and room_services
+        # UserNotifierJob.perform_async(@current_user.id, @room.id)  # Could not configure sidekiq
+        RoomMailer.created_room(@room, @current_user).deliver_now            # This for now until sidekiq is configured
         if params[:room][:bed_ids].present?
-
           params[:room][:bed_ids].each do |bed_id|
             RoomBed.find_or_create_by!(room: @room, bed_id: bed_id)
           end
         end
 
-        # Handle services
         if params[:room][:service_ids].present?
           params[:room][:service_ids].each do |service_id|
             RoomService.find_or_create_by!(room: @room, service_id: service_id)
