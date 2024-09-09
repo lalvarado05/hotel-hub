@@ -133,15 +133,6 @@ class RoomsController < ApplicationController
     params.require(:room).permit(:name, :price, :available, :image, bed_ids: [], service_ids: [])
   end
 
-  # Check if room is available
-  def room_available?(room, check_in_date, check_out_date)
-    reservations = room.reservations.where(
-      "(check_in_date < ? AND check_out_date > ?) OR (check_in_date >= ? AND check_in_date < ?)",
-      check_out_date, check_in_date, check_in_date, check_out_date
-    )
-    reservations.empty?
-  end
-
   def set_dates
     @check_in_date = params[:check_in_date].present? ? Date.parse(params[:check_in_date]) : Date.today
     @check_out_date = params[:check_out_date].present? ? Date.parse(params[:check_out_date]) : Date.tomorrow
@@ -160,6 +151,15 @@ class RoomsController < ApplicationController
     end
   end
 
+    # Check if room is available
+    def room_available?(room, check_in_date, check_out_date)
+      reservations = room.reservations.where(
+        "(check_in_date < ? AND check_out_date > ?) OR (check_in_date >= ? AND check_in_date < ?)",
+        check_out_date, check_in_date, check_in_date, check_out_date
+      )
+      reservations.empty?
+    end
+
   def filter_rooms_by_capacity_and_availability
     Room.all.select do |room|
       room.capacity >= @guest_amount && room_available?(room, @check_in_date, @check_out_date)
@@ -170,14 +170,18 @@ class RoomsController < ApplicationController
     return unless params[:price_range].present?
 
     price_limit = params[:price_range].to_i
-    @rooms = @rooms.select { |room| room.price <= price_limit }
+    @rooms = @rooms.select do |room|
+      room.price <= price_limit
+    end
   end
 
   def apply_service_filter
     return unless params[:services].present?
 
     selected_service_ids = params[:services].map(&:to_i)
-    @rooms = @rooms.select { |room| (room.service_ids & selected_service_ids).sort == selected_service_ids.sort }
+    @rooms = @rooms.select do |room|
+      (room.service_ids & selected_service_ids).sort == selected_service_ids.sort
+    end
   end
 
   def apply_sorting
@@ -194,7 +198,6 @@ class RoomsController < ApplicationController
       @rooms = @rooms.sort_by(&:capacity).reverse
     end
   end
-  
 
 
 end
