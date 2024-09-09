@@ -5,15 +5,19 @@
     <%= form_with url: search_rooms_path, method: :get, local: true, class: "d-flex align-items-center justify-content-between" do |form| %>
       <div class="form-group mb-0 mr-2">
         <%= form.label :check_in_date, "Check-in Date", class: "sr-only" %>
-        <%= form.date_field :check_in_date, value: @check_in_date, class: "form-control", placeholder: "Check-in Date" %>
+        <%= form.date_field :check_in_date, value: @check_in_date, class: "form-control", placeholder: "Check-in Date", min: Date.today %>
       </div>
       <div class="form-group mb-0 mr-2">
         <%= form.label :check_out_date, "Check-out Date", class: "sr-only" %>
-        <%= form.date_field :check_out_date, value: @check_out_date, class: "form-control", placeholder: "Check-out Date" %>
+        <%= form.date_field :check_out_date, value: @check_out_date, class: "form-control", placeholder: "Check-out Date", min: Date.today %>
       </div>
       <div class="form-group mb-0 mr-2">
         <%= form.label :guest_amount, "Number of Guests", class: "sr-only" %>
         <%= form.number_field :guest_amount, value: @guest_amount, class: "form-control", min: 1, placeholder: "Guests" %>
+      </div>
+      <div class="form-group mb-0 mr-2">
+        <%= form.label :sort_by, "Sort by", class: "sr-only" %>
+        <%= form.select :sort_by, options_for_select([["Price (Low to High)", "price_asc"], ["Price (High to Low)", "price_desc"], ["Capacity (Low to High)", "capacity_asc"], ["Capacity (High to Low)", "capacity_desc"]], selected: params[:sort_by]), class: "form-control" %>
       </div>
       <div class="form-group mb-0">
         <%= form.submit "Search", class: "btn btn-primary" %>
@@ -28,29 +32,25 @@
     <div class="col-md-3">
       <h3 class="mb-4">Filters</h3>
       <div class="bg-light p-3 rounded shadow-sm">
-        <div class="form-group">
-          <label for="price_range">Price Range ($):</label>
-          <input type="range" class="form-range" id="price_range" min="0" max="200" step="10" oninput="this.nextElementSibling.value = this.value">
-          <output>$0</output>
-        </div>
-        <div class="mt-4">
-          <h5>Services</h5>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="wifi" id="wifi">
-            <label class="form-check-label" for="wifi">WiFi</label>
+        <%= form_with url: search_rooms_path, method: :get, local: true do |form| %>
+          <div class="form-group">
+            <label for="price_range">Price Range ($):</label>
+            <input type="range" class="form-range" id="price_range" name="price_range" min="0" max="<%= @max_price %>" step="10" oninput="this.nextElementSibling.value = this.value">
+            <output>$<%= params[:price_range] || 0 %></output>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="pool" id="pool">
-            <label class="form-check-label" for="pool">Pool</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="gym" id="gym">
-            <label class="form-check-label" for="gym">Gym</label>
+          <div class="mt-4">
+            <h5>Services</h5>
+            <% @services.each do |service| %>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="services[]" value="<%= service.id %>" id="service_<%= service.id %>" <%= 'checked' if params[:services]&.include?(service.id.to_s) %>>
+                <label class="form-check-label" for="service_<%= service.id %>"><%= service.name %></label>
+              </div>
+            <% end %>
           </div>
           <div class="mt-3">
-            <input type="submit" value="Apply Filters" class="btn btn-primary w-100">
+            <%= form.submit "Apply Filters", class: "btn btn-primary w-100" %>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
     <!-- Rooms List Section -->
@@ -100,7 +100,6 @@
                     </ul>
                   </div>
                 </div>
-                <!-- Bottom-right aligned section with price and reserve button -->
                 <div class="d-flex justify-content-end align-items-center mt-3">
                   <% if room_available?(room, @check_in_date, @check_out_date) && room.capacity >= @guest_amount.to_i %>
                     <%= link_to "Reserve Room", new_reservation_path(room_id: room.id), class: "btn btn-success btn-sm w-25" %>
