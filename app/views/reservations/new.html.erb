@@ -1,11 +1,49 @@
-<% content_for :title, "New reservation" %>
-
-<h1>New reservation</h1>
-
-<%= render "form", reservation: @reservation %>
-
-<br>
-
-<div>
-  <%= link_to "Back to reservations", reservations_path %>
+<% content_for :title, "New Reservation" %>
+<div class="container my-5">
+  <div class="bg-light p-4 rounded shadow-sm">
+    <h3>Reservation Details</h3>
+    <p><strong>Room:</strong> <%= @room.name %></p>
+    <p><strong>Check-in:</strong> <%= @check_in_date %></p>
+    <p><strong>Check-out:</strong> <%= @check_out_date %></p>
+    <%= form_with model: @reservation, url: reservations_path, local: true do |form| %>
+      <%= form.hidden_field :room_id, value: @room.id %>
+      <%= form.hidden_field :check_in_date, value: @check_in_date %>
+      <%= form.hidden_field :check_out_date, value: @check_out_date %>
+      <!-- Payment Form -->
+      <div class="mb-3">
+        <h4>Payment Information</h4>
+        <!-- Name on Card -->
+        <div class="form-group">
+          <%= label_tag :card_name, "Name on Card" %>
+          <%= text_field_tag :card_name, params[:card_name], class: "form-control", required: true %>
+        </div>
+        <!-- Card Number -->
+        <div class="form-group">
+          <%= label_tag :card_number, "Card Number" %>
+          <%= text_field_tag :card_number, @card_number, class: "form-control", required: true, minlength: 16, maxlength: 16 %>
+          <% if @payment_errors && @payment_errors[:card_number] %>
+            <div class="text-danger"><%= @payment_errors[:card_number] %></div>
+          <% end %>
+        </div>
+        <!-- Expiration Date and Security Code -->
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <%= label_tag :exp_date, "Expiration Date (MM/YY)" %>
+            <%= text_field_tag :exp_date, @exp_date, class: "form-control", required: true, placeholder: "MM/YY" %>
+            <% if @payment_errors && @payment_errors[:exp_date] %>
+              <div class="text-danger"><%= @payment_errors[:exp_date] %></div>
+            <% end %>
+          </div>
+          <div class="col-md-6 form-group">
+            <%= label_tag :security_code, "Security Code" %>
+            <%= text_field_tag :security_code, @security_code, class: "form-control", required: true, minlength: 3, maxlength: 3 %>
+            <% if @payment_errors && @payment_errors[:security_code] %>
+              <div class="text-danger"><%= @payment_errors[:security_code] %></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <%= form.submit "Complete Reservation", class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>

@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  include RoomsHelper
   before_action :set_room, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show, :search]  # Devise authentication
   load_and_authorize_resource  # CanCanCan for authorization
@@ -99,9 +100,25 @@ class RoomsController < ApplicationController
     end
   end
 
-  # Custom search action
+  # Search for available rooms
   def search
-    @rooms = Room.all
+    set_dates
+    validate_dates
+
+    # Load all services for filter section
+    @services = Service.all
+
+    # Get the maximum price for the price range filter
+    @max_price = Room.maximum(:price) || 200
+
+    @rooms = filter_rooms_by_capacity_and_availability
+
+    apply_price_range_filter
+    apply_service_filter
+    apply_sorting
+
+    @no_rooms_found = @rooms.empty?
+    render :search
   end
 
   private
@@ -115,4 +132,72 @@ class RoomsController < ApplicationController
   def room_params
     params.require(:room).permit(:name, :price, :available, :image, bed_ids: [], service_ids: [])
   end
+
+  def set_dates
+    @check_in_date = params[:check_in_date].present? ? Date.parse(params[:check_in_date]) : Date.today
+    @check_out_date = params[:check_out_date].present? ? Date.parse(params[:check_out_date]) : Date.tomorrow
+    @guest_amount = params[:guest_amount].to_i > 0 ? params[:guest_amount].to_i : 1
+  end
+
+  def validate_dates
+    if @check_in_date < Date.today
+      flash[:alert] = "Check-in date cannot be in the past."
+      render :search and return
+    end
+
+    if @check_out_date <= @check_in_date
+      flash[:alert] = "Check-out date must be after the check-in date."
+      render :search and return
+    end
+  end
+
+    # Check if room is available
+    def room_available?(room, check_in_date, check_out_date)
+      reservations = room.reservations.where(
+        "(check_in_date < ? AND check_out_date > ?) OR (check_in_date >= ? AND check_in_date < ?)",
+        check_out_date, check_in_date, check_in_date, check_out_date
+      )
+      reservations.empty?
+    end
+
+  def filter_rooms_by_capacity_and_availability
+    Room.all.select do |room|
+      room.capacity >= @guest_amount && room_available?(room, @check_in_date, @check_out_date)
+    end
+  end
+
+  def apply_price_range_filter
+    return unless params[:price_range].present?
+
+    price_limit = params[:price_range].to_i
+    @rooms = @rooms.select do |room|
+      room.price <= price_limit
+    end
+  end
+
+  def apply_service_filter
+    return unless params[:services].present?
+
+    selected_service_ids = params[:services].map(&:to_i)
+    @rooms = @rooms.select do |room|
+      (room.service_ids & selected_service_ids).sort == selected_service_ids.sort
+    end
+  end
+
+  def apply_sorting
+    return unless params[:sort_by].present?
+
+    case params[:sort_by]
+    when "price_asc"
+      @rooms = @rooms.sort_by(&:price)
+    when "price_desc"
+      @rooms = @rooms.sort_by(&:price).reverse
+    when "capacity_asc"
+      @rooms = @rooms.sort_by(&:capacity)
+    when "capacity_desc"
+      @rooms = @rooms.sort_by(&:capacity).reverse
+    end
+  end
+
+
 end
