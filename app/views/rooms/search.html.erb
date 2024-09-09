@@ -1,6 +1,6 @@
 <% content_for :title, "Rooms" %>
 <!-- Search Section -->
-<div class="container my-5">
+<div class="container my-5" data-controller="room">
   <div class="bg-light p-4 rounded shadow-sm">
     <%= form_with url: search_rooms_path, method: :get, local: true, class: "d-flex align-items-center justify-content-between" do |form| %>
       <div class="form-group mb-0 mr-2">
@@ -25,7 +25,6 @@
     <% end %>
   </div>
 </div>
-<!-- Filter and Room List Section -->
 <div class="container mb-5">
   <div class="row">
     <!-- Filters Section -->
@@ -34,9 +33,9 @@
       <div class="bg-light p-3 rounded shadow-sm">
         <%= form_with url: search_rooms_path, method: :get, local: true do |form| %>
           <div class="form-group">
-            <label for="price_range">Price Range ($):</label>
-            <input type="range" class="form-range" id="price_range" name="price_range" min="0" max="<%= @max_price %>" step="10" oninput="this.nextElementSibling.value = this.value">
-            <output>$<%= params[:price_range] || 0 %></output>
+            <%= form.label :price_range, "Price Range:", class: "form-label" %>
+            <span id="price_range_value">$<%= params[:price_range] || 0 %></span>
+            <%= form.range_field :price_range, value: params[:price_range] || @max_price, min: 0, max: @max_price, step: 1, class: "form-range", id: "price_range", oninput: "updateRangeBackground()" %>
           </div>
           <div class="mt-4">
             <h5>Services</h5>
