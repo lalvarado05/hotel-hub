@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  include RoomsHelper
   before_action :set_room, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show, :search]  # Devise authentication
   load_and_authorize_resource  # CanCanCan for authorization
@@ -99,9 +100,32 @@ class RoomsController < ApplicationController
     end
   end
 
-  # Custom search action
+  # Search for available rooms
   def search
-    @rooms = Room.all
+    @check_in_date = params[:check_in_date].present? ? Date.parse(params[:check_in_date]) : Date.today
+    @check_out_date = params[:check_out_date].present? ? Date.parse(params[:check_out_date]) : Date.tomorrow
+    @guest_amount = params[:guest_amount] || 1
+
+    @rooms = Room.all.select do |room|
+      room_available?(room, @check_in_date, @check_out_date)
+    end
+
+    @rooms = Room.joins(:beds).group("rooms.id").having("SUM(beds.capacity) >= ?", @guest_amount)
+
+    # If no rooms match the criteria
+    @no_rooms_found = @rooms.empty?
+
+    render :search
+
+  end
+
+  # Check if room is available
+  def room_available?(room, check_in_date, check_out_date)
+    reservations = room.reservations.where(
+      "check_in_date < ? AND check_out_date > ?",
+      check_out_date, check_in_date
+    )
+    reservations.empty?
   end
 
   private
@@ -115,4 +139,7 @@ class RoomsController < ApplicationController
   def room_params
     params.require(:room).permit(:name, :price, :available, :image, bed_ids: [], service_ids: [])
   end
+
+
+
 end
