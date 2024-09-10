@@ -133,8 +133,16 @@ class RoomsController < ApplicationController
   end
 
   def set_dates
-    @check_in_date = params[:check_in_date].present? ? Date.parse(params[:check_in_date]) : Date.today
-    @check_out_date = params[:check_out_date].present? ? Date.parse(params[:check_out_date]) : Date.tomorrow
+    if params[:date_range].present?
+      check_in_date, check_out_date = params[:date_range].split(" to ")
+      @check_in_date = Date.parse(check_in_date)
+      @check_out_date = Date.parse(check_out_date)
+    else
+      @check_in_date = Date.today
+      @check_out_date = Date.tomorrow
+    end
+    #@check_in_date = params[:check_in_date].present? ? Date.parse(params[:check_in_date]) : Date.today
+    #@check_out_date = params[:check_out_date].present? ? Date.parse(params[:check_out_date]) : Date.tomorrow
     @guest_amount = params[:guest_amount].to_i > 0 ? params[:guest_amount].to_i : 1
   end
 

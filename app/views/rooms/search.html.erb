@@ -1,26 +1,37 @@
+<%= stylesheet_link_tag 'room_search', media: 'all' %>
 <% content_for :title, "Rooms" %>
 <!-- Search Section -->
 <div class="container my-5" data-controller="room">
   <div class="bg-light p-4 rounded shadow-sm">
-    <%= form_with url: search_rooms_path, method: :get, local: true, class: "d-flex align-items-center justify-content-between" do |form| %>
-      <div class="form-group mb-0 mr-2">
+    <%= form_with url: search_rooms_path, method: :get, local: true, class: "d-flex flex-wrap align-items-center gap-3" do |form| %>
+      <!-- Date Range Picker -->
+      <div class="form-group flex-grow-1 mb-3" data-controller="date-picker">
+        <%= label_tag :date_range, "When will you visit us?", class: "font-weight-bold text-pink mb-2 text-lg" %>
+        <%= text_field_tag :date_range, nil, id: "date_range", class: "form-control", placeholder: "Choose dates" %>
+      </div>
+      <!--
+      <div class="form-group mb-0">
         <%= form.label :check_in_date, "Check-in", class: "sr-only" %>
         <%= form.date_field :check_in_date, value: @check_in_date, class: "form-control", placeholder: "Check-in", min: Date.today %>
       </div>
-      <div class="form-group mb-0 mr-2">
+      <div class="form-group mb-0">
         <%= form.label :check_out_date, "Check-out", class: "sr-only" %>
         <%= form.date_field :check_out_date, value: @check_out_date, class: "form-control", placeholder: "Check-out", min: Date.today %>
       </div>
-      <div class="form-group mb-0 mr-2">
-        <%= form.label :guest_amount, "Travelers", class: "sr-only" %>
+    -->
+      <!-- Guest Amount -->
+      <div class="form-group flex-grow-1 mb-3">
+        <%= form.label :guest_amount, "Travelers", class: "font-weight-bold text-pink mb-2 text-lg" %>
         <%= form.number_field :guest_amount, value: @guest_amount, class: "form-control", min: 1, placeholder: "Travelers" %>
       </div>
-      <div class="form-group mb-0 mr-2">
-        <%= form.label :sort_by, "Sort by", class: "sr-only" %>
-        <%= form.select :sort_by, options_for_select([["Price (Low to High)", "price_asc"], ["Price (High to Low)", "price_desc"], ["Capacity (Low to High)", "capacity_asc"], ["Capacity (High to Low)", "capacity_desc"]], selected: params[:sort_by]), class: "form-control" %>
+      <!-- Sort By -->
+      <div class="form-group flex-grow-1 mb-3 d-flex flex-column justify-content-center">
+        <%= form.label :sort_by, "Sort by", class: "font-weight-bold text-pink mb-2 text-lg" %>
+        <%= form.select :sort_by, options_for_select([["Price (Low to High)", "price_asc"], ["Price (High to Low)", "price_desc"], ["Capacity (Low to High)", "capacity_asc"], ["Capacity (High to Low)", "capacity_desc"]], selected: params[:sort_by]), class: "form-control mt-2" %>
       </div>
-      <div class="form-group mb-0">
-        <%= form.submit "Search", class: "btn btn-primary" %>
+      <!-- Submit Button -->
+      <div class="form-group mb-0 d-flex align-self-center pt-3">
+        <%= form.submit "Search", class: "btn btn-primary w-100", style: "background-color: #ff85a2; border-color: #ff85a2; font-size: 1.2rem;" %>
       </div>
     <% end %>
   </div>
@@ -28,7 +39,7 @@
 <div class="container mb-5">
   <div class="row">
     <!-- Filters Section -->
-    <div class="col-md-3">
+    <div class="col-md-3 mb-5">
       <h3 class="mb-4">Filters</h3>
       <div class="bg-light p-3 rounded shadow-sm">
         <%= form_with url: search_rooms_path, method: :get, local: true do |form| %>

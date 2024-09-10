@@ -9,7 +9,7 @@ export default class extends Controller {
     function updateRange() {
       const range = document.getElementById('price_range');
       const value = ((range.value - range.min) / (range.max - range.min)) * 100;
-      range.style.background = `linear-gradient(to right, #ff69b4 ${value}%, white ${value}%)`;
+      range.style.background = `linear-gradient(to right, #D8C2D7 ${value}%, white ${value}%)`;
       document.getElementById('price_range_value').innerText = '$' + range.value;
     }
   }

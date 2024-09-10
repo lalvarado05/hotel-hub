@@ -16,7 +16,7 @@ gem 'image_processing', '~> 1.13'         # High-level image processing wrapper 
 gem 'active_storage_validations'          # ActiveStorage validations for Rails
 gem 'mini_magick'                         # Manipulate images with minimal use of memory via ImageMagick / GraphicsMagick
 gem "sidekiq", "~> 7.3"                   # Simple, efficient background processing for Ruby
-
+gem 'sassc-rails'                         # Integrate SassC-Ruby into Rails
 
 gem "rails", "~> 7.2.1"
 gem "sprockets-rails"
