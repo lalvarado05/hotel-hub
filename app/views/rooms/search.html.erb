@@ -1,13 +1,12 @@
 <%= stylesheet_link_tag 'room_search', media: 'all' %>
 <% content_for :title, "Rooms" %>
-<!-- Search Section -->
 <div class="container my-5" data-controller="room">
   <div class="bg-light p-4 rounded shadow-sm">
     <%= form_with url: search_rooms_path, method: :get, local: true, class: "d-flex flex-wrap align-items-center gap-3" do |form| %>
-      <!-- Date Range Picker -->
+      <!-- Date Range -->
       <div class="form-group flex-grow-1 mb-3" data-controller="date-picker">
         <%= label_tag :date_range, "When will you visit us?", class: "font-weight-bold text-pink mb-2 text-lg" %>
-        <%= text_field_tag :date_range, params[:date_range], id: "date_range", class: "form-control", placeholder: "Choose dates" %>
+        <%= text_field_tag :date_range, "#{@check_in_date} to #{@check_out_date}", id: "date_range", class: "form-control", placeholder: "Choose dates" %>
       </div>
       <!--
       <div class="form-group mb-0">
@@ -18,8 +17,8 @@
         <%= form.label :check_out_date, "Check-out", class: "sr-only" %>
         <%= form.date_field :check_out_date, value: @check_out_date, class: "form-control", placeholder: "Check-out", min: Date.today %>
       </div>
-    -->
-      <!-- Guest Amount -->
+      -->
+      <!-- Travelers -->
       <div class="form-group flex-grow-1 mb-3">
         <%= form.label :guest_amount, "Travelers", class: "font-weight-bold text-pink mb-2 text-lg" %>
         <%= form.number_field :guest_amount, value: @guest_amount, class: "form-control", min: 1, placeholder: "Travelers" %>
@@ -43,15 +42,18 @@
       <h3 class="mb-4">Filters</h3>
       <div class="bg-light p-3 rounded shadow-sm">
         <%= form_with url: search_rooms_path, method: :get, local: true do |form| %>
-          <!-- Stored this so when filter is applied it will persist -->
+          <!-- I need this to "save" the information after filter is applied -->
           <%= form.hidden_field :check_in_date, value: @check_in_date %>
           <%= form.hidden_field :check_out_date, value: @check_out_date %>
           <%= form.hidden_field :guest_amount, value: @guest_amount %>
+          <%= form.hidden_field :sort_by, value: params[:sort_by] %>
+          <!-- Price Range Filter -->
           <div class="form-group">
             <%= form.label :price_range, "Price Range:", class: "form-label" %>
             <span id="price_range_value">$<%= params[:price_range] || 0 %></span>
             <%= form.range_field :price_range, value: params[:price_range] || @max_price, min: 0, max: @max_price, step: 1, class: "form-range", id: "price_range", oninput: "updateRangeBackground()" %>
           </div>
+          <!-- Capacity Filter -->
           <div class="mt-4">
             <h5>Services</h5>
             <% @services.each do |service| %>
@@ -61,6 +63,7 @@
               </div>
             <% end %>
           </div>
+          <!-- Submit Button -->
           <div class="mt-3">
             <%= form.submit "Apply Filters", class: "btn btn-primary w-100" %>
           </div>
@@ -115,11 +118,7 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-end align-items-center mt-3">
-                  <% if room_available?(room, @check_in_date, @check_out_date) && room.capacity >= @guest_amount.to_i %>
-                    <%= link_to "Reserve Room", new_reservation_path(room_id: room.id, check_in_date: @check_in_date, check_out_date: @check_out_date), class: "btn btn-success" %>
-                  <% else %>
-                    <button class="btn btn-secondary btn-sm w-25" disabled>Not Available</button>
-                  <% end %>
+                  <%= link_to "Reserve Room", new_reservation_path(room_id: room.id, check_in_date: @check_in_date, check_out_date: @check_out_date), class: "btn btn-success" %>
                 </div>
               </div>
             </div>
