@@ -4,16 +4,16 @@
   <div class="bg-light p-4 rounded shadow-sm">
     <%= form_with url: search_rooms_path, method: :get, local: true, class: "d-flex align-items-center justify-content-between" do |form| %>
       <div class="form-group mb-0 mr-2">
-        <%= form.label :check_in_date, "Check-in Date", class: "sr-only" %>
-        <%= form.date_field :check_in_date, value: @check_in_date, class: "form-control", placeholder: "Check-in Date", min: Date.today %>
+        <%= form.label :check_in_date, "Check-in", class: "sr-only" %>
+        <%= form.date_field :check_in_date, value: @check_in_date, class: "form-control", placeholder: "Check-in", min: Date.today %>
       </div>
       <div class="form-group mb-0 mr-2">
-        <%= form.label :check_out_date, "Check-out Date", class: "sr-only" %>
-        <%= form.date_field :check_out_date, value: @check_out_date, class: "form-control", placeholder: "Check-out Date", min: Date.today %>
+        <%= form.label :check_out_date, "Check-out", class: "sr-only" %>
+        <%= form.date_field :check_out_date, value: @check_out_date, class: "form-control", placeholder: "Check-out", min: Date.today %>
       </div>
       <div class="form-group mb-0 mr-2">
-        <%= form.label :guest_amount, "Number of Guests", class: "sr-only" %>
-        <%= form.number_field :guest_amount, value: @guest_amount, class: "form-control", min: 1, placeholder: "Guests" %>
+        <%= form.label :guest_amount, "Travelers", class: "sr-only" %>
+        <%= form.number_field :guest_amount, value: @guest_amount, class: "form-control", min: 1, placeholder: "Travelers" %>
       </div>
       <div class="form-group mb-0 mr-2">
         <%= form.label :sort_by, "Sort by", class: "sr-only" %>
@@ -32,6 +32,10 @@
       <h3 class="mb-4">Filters</h3>
       <div class="bg-light p-3 rounded shadow-sm">
         <%= form_with url: search_rooms_path, method: :get, local: true do |form| %>
+          <!-- Stored this so when filter is applied it will persist -->
+          <%= form.hidden_field :check_in_date, value: @check_in_date %>
+          <%= form.hidden_field :check_out_date, value: @check_out_date %>
+          <%= form.hidden_field :guest_amount, value: @guest_amount %>
           <div class="form-group">
             <%= form.label :price_range, "Price Range:", class: "form-label" %>
             <span id="price_range_value">$<%= params[:price_range] || 0 %></span>
@@ -78,7 +82,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <p><strong>Capacity:</strong> <%= room.capacity %> guests</p>
+                    <p><strong>Capacity:</strong> <%= room.capacity %></p>
                   </div>
                   <div class="col-md-6">
                     <p><strong>Beds:</strong></p>
