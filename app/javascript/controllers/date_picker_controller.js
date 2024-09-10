@@ -7,7 +7,9 @@ export default class extends Controller {
       flatpickr("#date_range", {
         mode: "range",
         dateFormat: "Y-m-d",
-        minDate: "today"
+        minDate: "today",
+        defaultDate: document.getElementById("date_range").value || null // Set the default date if a value exists
+
       });
     });
   }

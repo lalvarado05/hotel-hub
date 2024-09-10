@@ -7,7 +7,7 @@
       <!-- Date Range Picker -->
       <div class="form-group flex-grow-1 mb-3" data-controller="date-picker">
         <%= label_tag :date_range, "When will you visit us?", class: "font-weight-bold text-pink mb-2 text-lg" %>
-        <%= text_field_tag :date_range, nil, id: "date_range", class: "form-control", placeholder: "Choose dates" %>
+        <%= text_field_tag :date_range, params[:date_range], id: "date_range", class: "form-control", placeholder: "Choose dates" %>
       </div>
       <!--
       <div class="form-group mb-0">
