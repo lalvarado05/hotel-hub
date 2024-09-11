@@ -1,6 +1,6 @@
 class BedsController < ApplicationController
   before_action :set_bed, only: %i[ show edit update destroy ]
-
+  load_and_authorize_resource
   # GET /beds or /beds.json
   def index
     @beds = Bed.all
