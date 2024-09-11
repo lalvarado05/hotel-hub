@@ -10,9 +10,11 @@ class Ability
     can :read, Room, public: true
     can :search, Room # Allow guests to access the search action
 
-    # Additional permissions for logged-in users (client role)
+    # Additional permissions for logged in users
     if user.client?
-      can :read, Room
+      can :read, Room                           # Allow clients to read rooms
+      can :create, Reservation                  # Allow clients to create reservations
+      can :read, Reservation, user_id: user.id  # Allow users to read their own reservations
     end
 
     # Additional permissions for admin users

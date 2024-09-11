@@ -6,9 +6,11 @@ export default class extends Controller {
     document.addEventListener("turbo:load", function() {
       flatpickr("#date_range", {
         mode: "range",
+        altInput: true,
+        altFormat: "F j, Y",
         dateFormat: "Y-m-d",
         minDate: "today",
-        defaultDate: document.getElementById("date_range").value || null // Set the default date if a value exists
+        defaultDate: document.getElementById("date_range").value || null
 
       });
     });

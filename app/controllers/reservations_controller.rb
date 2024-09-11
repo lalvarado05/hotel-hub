@@ -1,16 +1,22 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: %i[ show edit update destroy ]
+  before_action :set_reservation, only: [:show, :edit, :update, :destroy, :cancel, :check_in, :check_out, :no_show]
   before_action :authenticate_user!  # Devise authentication
   before_action :set_room, only: [:new, :create]
-
+  load_and_authorize_resource # Cancan authorization
 
   # GET /reservations or /reservations.json
   def index
-    @reservations = Reservation.all
+    @current_user = current_user
+    if current_user.admin?
+      @reservations = Reservation.all
+    else
+      @reservations = @current_user.reservations
+    end
   end
 
   # GET /reservations/1 or /reservations/1.json
   def show
+    @reservation = Reservation.find(params[:id])
   end
 
   # GET /reservations/new
@@ -34,7 +40,7 @@ class ReservationsController < ApplicationController
     @reservation.room = Room.find(params[:reservation][:room_id])
     @reservation.status = "booked"
     @reservation.confirmation_code = "#{@reservation.user.id}-#{@reservation.room.id}-#{Date.today.strftime('%Y%m%d')}"
-    
+
     # Capture check-in, check-out, and payment details
     @check_in_date = params[:reservation][:check_in_date]
     @check_out_date = params[:reservation][:check_out_date]
@@ -87,6 +93,79 @@ class ReservationsController < ApplicationController
     end
   end
 
+
+
+  # PATCH funtion to update reservations
+  def cancel
+    respond_to do |format|
+      if current_user.admin? || (current_user == @reservation.user && Date.today < @reservation.check_in_date)
+        if @reservation.update(status: 'cancelled')
+          format.html { redirect_to reservations_path, notice: "Reservation has been cancelled." }
+          format.json { render :show, status: :ok, location: @reservation }
+        else
+          format.html { redirect_to reservations_path, alert: "Could not cancel reservation." }
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        end
+      else
+        format.html { redirect_to reservations_path, alert: "You cannot cancel this reservation. Reservations can only be cancelled the day before." }
+        format.json { render json: { error: "Unauthorized" }, status: :forbidden }
+      end
+    end
+  end
+
+  def check_in
+    respond_to do |format|
+      if current_user.admin? && @reservation.status == 'booked'
+        if @reservation.update(status: 'checked_in')
+          format.html { redirect_to reservations_path, notice: "Guest has been checked in." }
+          format.json { render :show, status: :ok, location: @reservation }
+        else
+          format.html { redirect_to reservations_path, alert: "Could not check in reservation." }
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        end
+      else
+        format.html { redirect_to reservations_path, alert: "You cannot check in this reservation." }
+        format.json { render json: { error: "Unauthorized" }, status: :forbidden }
+      end
+    end
+  end
+
+  def check_out
+    respond_to do |format|
+      if current_user.admin? && @reservation.status == 'checked_in'
+        if @reservation.update(status: 'checked_out')
+          format.html { redirect_to reservations_path, notice: "Guest has been checked out." }
+          format.json { render :show, status: :ok, location: @reservation }
+        else
+          format.html { redirect_to reservations_path, alert: "Could not check out reservation." }
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        end
+      else
+        format.html { redirect_to reservations_path, alert: "You cannot check out this reservation." }
+        format.json { render json: { error: "Unauthorized" }, status: :forbidden }
+      end
+    end
+  end
+
+  def no_show
+    respond_to do |format|
+      if current_user.admin? && @reservation.status == 'booked'
+        if @reservation.update(status: 'no_show')
+          format.html { redirect_to reservations_path, notice: "Reservation marked as no show." }
+          format.json { render :show, status: :ok, location: @reservation }
+        else
+          format.html { redirect_to reservations_path, alert: "Could not mark reservation as no show." }
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        end
+      else
+        format.html { redirect_to reservations_path, alert: "You cannot mark this reservation as no show." }
+        format.json { render json: { error: "Unauthorized" }, status: :forbidden }
+      end
+    end
+  end
+
+
+  #PRIVATE METHODS
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_reservation

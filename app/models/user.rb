@@ -14,12 +14,17 @@ class User < ApplicationRecord
   validates :phone_number, presence: true, uniqueness: true, format: { with: /\A\d{8}\z/, message: "must be 8 digits" }
   validates :role, presence: true, inclusion: { in: %w[admin client], message: "%{value} is not a valid role" }
 
-  # M
+  # Methods
+
   def admin?
     role == 'admin'
   end
   def client?
     role == 'client'
+  end
+  # Returns the full name of the user
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
 end

@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :responses
   resources :reviews
-  resources :reservations
   resources :room_beds
   resources :room_services
   resources :beds
@@ -15,7 +14,14 @@ Rails.application.routes.draw do
       get 'search'
     end
   end
-
+  resources :reservations do
+    member do
+      patch :cancel
+      patch :check_in
+      patch :check_out
+      patch :no_show
+    end
+  end
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
