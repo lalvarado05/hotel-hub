@@ -117,7 +117,11 @@ class RoomsController < ApplicationController
     end
 
     @no_rooms_found = @rooms.empty?
-    render :search
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream { render turbo_stream: turbo_stream.replace('room_search', partial: 'rooms/room_search', locals: { rooms: @rooms, no_rooms_found: @no_rooms_found, check_in_date: @check_in_date, check_out_date: @check_out_date, guest_amount: @guest_amount }) }
+    end
   end
 
   private

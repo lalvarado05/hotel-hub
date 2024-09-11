@@ -1,0 +1,36 @@
+<div class="bg-light p-4 rounded shadow-sm">
+  <%= form_with url: search_rooms_path, method: :get, local: true, data: { turbo_frame: 'room_search' }, class: "d-flex flex-wrap align-items-center gap-3" do |form| %>
+    <!-- Date Range -->
+    <div class="form-group flex-grow-1 mb-3" data-controller="date-picker">
+      <%= label_tag :date_range, "When will you visit us?", class: "font-weight-bold text-pink mb-2 text-lg" %>
+      <%= text_field_tag :date_range, "#{@check_in_date} to #{@check_out_date}", id: "date_range", class: "form-control", placeholder: "Choose dates" %>
+    </div>
+    <!--
+      <div class="form-group mb-0">
+        <%= form.label :check_in_date, "Check-in", class: "sr-only" %>
+        <%= form.date_field :check_in_date, value: @check_in_date, class: "form-control", placeholder: "Check-in", min: Date.today %>
+      </div>
+      <div class="form-group mb-0">
+        <%= form.label :check_out_date, "Check-out", class: "sr-only" %>
+        <%= form.date_field :check_out_date, value: @check_out_date, class: "form-control", placeholder: "Check-out", min: Date.today %>
+      </div>
+      -->
+    <!-- Travelers -->
+    <div class="form-group flex-grow-1 mb-3">
+      <%= form.label :guest_amount, "Travelers", class: "font-weight-bold text-pink mb-2 text-lg" %>
+      <%= form.number_field :guest_amount, value: @guest_amount, class: "form-control", min: 1, placeholder: "Travelers" %>
+    </div>
+    <!-- Sort By -->
+    <div class="form-group flex-grow-1 mb-3 d-flex flex-column justify-content-center">
+      <%= form.label :sort_by, "Sort by", class: "font-weight-bold text-pink mb-2 text-lg" %>
+      <%= form.select :sort_by, options_for_select([["Price (Low to High)", "price_asc"], ["Price (High to Low)", "price_desc"], ["Capacity (Low to High)", "capacity_asc"], ["Capacity (High to Low)", "capacity_desc"]], selected: params[:sort_by]), class: "form-control mt-2" %>
+    </div>
+    <!-- Need to save this for filter, please work -->
+    <%= form.hidden_field :price_range, value: params[:price_range] %>
+    <%= form.hidden_field :services, value: params[:services] %>
+    <!-- Submit Button -->
+    <div class="form-group mb-0 d-flex align-self-center pt-3">
+      <%= form.submit "Search", class: "btn btn-primary w-100", style: "background-color: #ff85a2; border-color: #ff85a2; font-size: 1.2rem;" %>
+    </div>
+  <% end %>
+</div>

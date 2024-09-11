@@ -1,0 +1,38 @@
+<!-- Filters Section -->
+<div class="col-md-3 mb-5">
+  <div class="bg-light p-3 rounded shadow-sm">
+    <h3 class="mb-4">Filters</h3>
+    <%= form_with url: search_rooms_path, method: :get, local: true, data: { turbo_frame: 'room_search' } do |form| %>
+      <!-- Need to also so when filter is done -->
+      <%= form.hidden_field :check_in_date, value: @check_in_date %>
+      <%= form.hidden_field :check_out_date, value: @check_out_date %>
+      <%= form.hidden_field :guest_amount, value: @guest_amount %>
+      <%= form.hidden_field :sort_by, value: params[:sort_by] %>
+      <!-- Price Range Filter -->
+      <div class="form-group my-3">
+        <h5>Prices</h5>
+        <div class="my-4">
+          <%= form.label :price_range, "Maximum price $", class: "form-label" %>
+          <output></output>
+          <%= form.range_field :price_range, value: @max_price, min: 1, max: @max_price, step: 1, class: "form-range", id: "price_range", oninput: "this.previousElementSibling.value = this.value" %>
+        </div>
+      </div>
+      <!-- Services Filter -->
+      <div class="mt-4">
+        <h5>Services</h5>
+        <div class="my-4">
+          <% @services.each do |service| %>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="services[]" value="<%= service.id %>" id="service_<%= service.id %>" <%= 'checked' if params[:services]&.include?(service.id.to_s) %>>
+              <label class="form-check-label" for="service_<%= service.id %>"><%= service.name %></label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <hr>
+      <div class="my-4">
+        <%= form.submit "Apply Filters", class: "btn btn-primary w-100" %>
+      </div>
+    <% end %>
+  </div>
+</div>
