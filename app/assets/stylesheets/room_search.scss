@@ -1,19 +1,19 @@
 .text-pink {
     color: #ff85a2;
   }
-  
+
   .form-control {
     height: 45px; /* Ensure uniform field height */
   }
-  
+
   .form-control::placeholder {
     color: #999;
   }
-  
+
   .form-group {
     flex-grow: 1;
   }
-  
+
   .gap-3 {
     gap: 1rem; /* Adds space between form elements */
   }
