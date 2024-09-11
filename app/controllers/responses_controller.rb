@@ -1,6 +1,8 @@
 class ResponsesController < ApplicationController
   before_action :set_response, only: %i[ show edit update destroy ]
-
+  before_action :set_review, only: %i[ new create ]
+  before_action :ensure_single_response, only: %i[ new create ]
+  
   # GET /responses or /responses.json
   def index
     @responses = Response.all
@@ -12,7 +14,7 @@ class ResponsesController < ApplicationController
 
   # GET /responses/new
   def new
-    @response = Response.new
+    @response = @review.build_response
   end
 
   # GET /responses/1/edit
@@ -21,11 +23,12 @@ class ResponsesController < ApplicationController
 
   # POST /responses or /responses.json
   def create
-    @response = Response.new(response_params)
+    @response = @review.build_response(response_params)
+    @response.user = current_user
 
     respond_to do |format|
       if @response.save
-        format.html { redirect_to response_url(@response), notice: "Response was successfully created." }
+        format.html { redirect_to responses_url, notice: "Response was successfully created." }
         format.json { render :show, status: :created, location: @response }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +41,7 @@ class ResponsesController < ApplicationController
   def update
     respond_to do |format|
       if @response.update(response_params)
-        format.html { redirect_to response_url(@response), notice: "Response was successfully updated." }
+        format.html { redirect_to responses_url, notice: "Response was successfully updated." }
         format.json { render :show, status: :ok, location: @response }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -67,4 +70,20 @@ class ResponsesController < ApplicationController
     def response_params
       params.require(:response).permit(:user_id, :review_id, :comment)
     end
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_review
+      @review = Review.find(params[:review_id])
+    end
+
+    # Only one response per review
+    def ensure_single_response
+      if @review.response.present?
+        respond_to do |format|
+          format.html { redirect_to reviews_url, alert: "This review already has a response." }
+          format.json { render json: { error: "This review already has a response." }, status: :unprocessable_entity }
+        end
+      end
+    end
+
 end

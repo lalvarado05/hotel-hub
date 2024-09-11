@@ -1,5 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show edit update destroy ]
+  before_action :set_reservation, only: %i[ new create ]
+  before_action :ensure_checked_out_reservation, only: %i[ new create ]
 
   # GET /reviews or /reviews.json
   def index
@@ -12,7 +14,7 @@ class ReviewsController < ApplicationController
 
   # GET /reviews/new
   def new
-    @review = Review.new
+    @review = @reservation.build_review
   end
 
   # GET /reviews/1/edit
@@ -22,6 +24,7 @@ class ReviewsController < ApplicationController
   # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
+    @review.user = current_user
 
     respond_to do |format|
       if @review.save
@@ -67,4 +70,20 @@ class ReviewsController < ApplicationController
     def review_params
       params.require(:review).permit(:user_id, :rating, :comment, :display)
     end
+
+    # Ensure that the user has checked out before leaving a review
+    def ensure_checked_out_reservation
+      unless @reservation.can_leave_review?
+        respond_to do |format|
+          format.html { redirect_to reservations_url, alert: "You can only leave a review after your stay." }
+          format.json { render json: { error: "You can only leave a review after your stay." }, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    # Find the reservation that the review is for
+    def set_reservation
+      @reservation = Reservation.find(params[:reservation_id])
+    end
+
 end
