@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
   before_action :set_service, only: %i[ show edit update destroy ]
-
+  load_and_authorize_resource
   # GET /services or /services.json
   def index
     @services = Service.all
@@ -38,7 +38,7 @@ class ServicesController < ApplicationController
   def update
     respond_to do |format|
       if @service.update(service_params)
-        format.html { redirect_to service_url(@service), notice: "Service was successfully updated." }
+        format.html { redirect_to services_url, notice: "Service was successfully updated." }
         format.json { render :show, status: :ok, location: @service }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -50,7 +50,7 @@ class ServicesController < ApplicationController
   # DELETE /services/1 or /services/1.json
   def destroy
     @service = Service.find(params[:id])
-  
+
     if @service.rooms.any?
       respond_to do |format|
         format.html { redirect_to services_url, alert: "Cannot delete service as it is associated with rooms." }

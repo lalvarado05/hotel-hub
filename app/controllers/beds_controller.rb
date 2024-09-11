@@ -1,6 +1,6 @@
 class BedsController < ApplicationController
   before_action :set_bed, only: %i[ show edit update destroy ]
-
+  load_and_authorize_resource
   # GET /beds or /beds.json
   def index
     @beds = Bed.all
@@ -38,7 +38,7 @@ class BedsController < ApplicationController
   def update
     respond_to do |format|
       if @bed.update(bed_params)
-        format.html { redirect_to bed_url(@bed), notice: "Bed was successfully updated." }
+        format.html { redirect_to beds_url, notice: "Bed was successfully updated." }
         format.json { render :show, status: :ok, location: @bed }
       else
         format.html { render :edit, status: :unprocessable_entity }

@@ -6,7 +6,7 @@ class RoomsController < ApplicationController
 
   # GET /rooms or /rooms.json
   def index
-    @rooms = Room.all
+    @rooms = Room.all.order(:name)
   end
 
   # GET /rooms/1 or /rooms/1.json
@@ -16,8 +16,8 @@ class RoomsController < ApplicationController
   # GET /rooms/new
   def new
     @room = Room.new
-    @beds = Bed.all
-    @services = Service.all
+    @beds = Bed.all.order(:name)
+    @services = Service.all.order(:name)
   end
 
   # GET /rooms/1/edit
@@ -79,7 +79,7 @@ class RoomsController < ApplicationController
           end
         end
 
-        format.html { redirect_to room_url(@room), notice: "Room was successfully updated." }
+        format.html { redirect_to rooms_url, notice: "Room was successfully updated." }
         format.json { render :show, status: :ok, location: @room }
       else
         @beds = Bed.all
@@ -102,20 +102,19 @@ class RoomsController < ApplicationController
 
   # Search for available rooms
   def search
-    set_dates
-    validate_dates
-
     # Load all services for filter section
     @services = Service.all
-
-    # Get the maximum price for the price range filter
+    @rooms = []
+    # Max price for price range filter
     @max_price = Room.maximum(:price) || 200
+    set_dates
 
-    @rooms = filter_rooms_by_capacity_and_availability
-
-    apply_price_range_filter
-    apply_service_filter
-    apply_sorting
+    if validate_dates
+      @rooms = filter_rooms_by_capacity_and_availability
+      apply_price_range_filter
+      apply_service_filter
+      apply_sorting
+    end
 
     @no_rooms_found = @rooms.empty?
     render :search
@@ -134,22 +133,33 @@ class RoomsController < ApplicationController
   end
 
   def set_dates
-    @check_in_date = params[:check_in_date].present? ? Date.parse(params[:check_in_date]) : Date.today
-    @check_out_date = params[:check_out_date].present? ? Date.parse(params[:check_out_date]) : Date.tomorrow
+    if params[:date_range].present?
+      check_in_date, check_out_date = params[:date_range].split(" to ")
+      @check_in_date = Date.parse(check_in_date)
+      @check_out_date = Date.parse(check_out_date)
+    else
+      @check_in_date = Date.today
+      @check_out_date = Date.tomorrow
+    end
+    #@check_in_date = params[:check_in_date].present? ? Date.parse(params[:check_in_date]) : Date.today
+    #@check_out_date = params[:check_out_date].present? ? Date.parse(params[:check_out_date]) : Date.tomorrow
     @guest_amount = params[:guest_amount].to_i > 0 ? params[:guest_amount].to_i : 1
   end
+
 
   def validate_dates
     if @check_in_date < Date.today
       flash[:alert] = "Check-in date cannot be in the past."
-      render :search and return
+      return false
     end
 
     if @check_out_date <= @check_in_date
       flash[:alert] = "Check-out date must be after the check-in date."
-      render :search and return
+      return false
     end
+    true
   end
+
 
     # Check if room is available
     def room_available?(room, check_in_date, check_out_date)
