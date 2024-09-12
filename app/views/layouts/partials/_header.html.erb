@@ -27,28 +27,33 @@
       <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to edit_user_registration_path, class: "nav-link text-light-grey" do %>
-              <i class="fas fa-user me-2"></i>Profile
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <%= button_to destroy_user_session_path, method: :delete, class: "nav-link btn btn-link text-light-grey" do %>
-              <i class="fas fa-sign-out-alt me-2"></i>Log Out
-            <% end %>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to new_user_session_path, class: "nav-link text-light-grey" do %>
-              <i class="fas fa-sign-in-alt me-2"></i>Sign In
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <%= link_to new_user_registration_path, class: "nav-link text-light-grey" do %>
-              <i class="fas fa-user-plus me-2"></i>Sign Up
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+            <p class="nav-link mx-2 mb-0"></i>Welcome <strong><%= current_user.full_name %></strong></p>
+        </li>
+      <% end %>
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <%= link_to edit_user_registration_path, class: "nav-link text-light-grey" do %>
+            <i class="fas fa-user me-2"></i>Profile
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= button_to destroy_user_session_path, method: :delete, class: "nav-link btn btn-link text-light-grey" do %>
+            <i class="fas fa-sign-out-alt me-2"></i>Log Out
+          <% end %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to new_user_session_path, class: "nav-link text-light-grey" do %>
+            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to new_user_registration_path, class: "nav-link text-light-grey" do %>
+            <i class="fas fa-user-plus me-2"></i>Sign Up
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
   </div>
+</div>
 </nav>
