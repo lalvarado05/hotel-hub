@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <%= link_to search_rooms_path, class: "navbar-brand d-flex align-items-center" do %>
-      <%= image_tag("sakura.png", alt: "Sakura Stay", class: "img-fluid", style: "width: 75px; height: auto; margin-right: 10px;") %>
-      <span>Sakura Stay</span>
+      <%= image_tag("sakura.png", alt: "Sakura Stay", class: "img-fluid", style: "width: 60px; height: auto; margin-right: 10px;") %>
+      <span class="text-light" style="font-family: 'Kosugi Maru', sans-serif; font-size: 1.8rem;">Sakura Stay</span>
     <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -10,40 +10,45 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <%= link_to "Home", root_path, class: "nav-link active", "aria-current": "page" %>
+          <%= link_to "Home", root_path, class: "nav-link text-light-grey" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Reservations", reservations_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Rooms", rooms_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Users", users_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Beds", beds_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Services", services_path, class: "nav-link" %>
-        </li>
-        <ul class="navbar-nav">
-          <% if user_signed_in? %>
-            <li class="nav-item">
-              <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Profile", edit_user_registration_path, class: "nav-link" %>
-            </li>
-          <% else %>
-            <li class="nav-item">
-              <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+        <% if user_signed_in? && current_user.admin? %>
+          <li class="nav-item">
+            <%= link_to "Reservations", reservations_path, class: "nav-link text-light-grey" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Rooms", rooms_path, class: "nav-link text-light-grey" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Users", users_path, class: "nav-link text-light-grey" %>
+          </li>
+        <% end %>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to edit_user_registration_path, class: "nav-link text-light-grey" do %>
+              <i class="fas fa-user me-2"></i>Profile
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= button_to destroy_user_session_path, method: :delete, class: "nav-link btn btn-link text-light-grey" do %>
+              <i class="fas fa-sign-out-alt me-2"></i>Log Out
+            <% end %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to new_user_session_path, class: "nav-link text-light-grey" do %>
+              <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to new_user_registration_path, class: "nav-link text-light-grey" do %>
+              <i class="fas fa-user-plus me-2"></i>Sign Up
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
