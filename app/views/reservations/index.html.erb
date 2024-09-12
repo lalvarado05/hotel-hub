@@ -47,6 +47,9 @@
                     <%= link_to 'No Show', no_show_reservation_path(reservation), data: { turbo_method: :patch}, class: 'btn btn-sm btn-secondary' %>
                   <% end %>
                 <% end %>
+                <% if current_user == reservation.user && reservation.status == 'checked_out' && reservation.review.nil? %>
+                  <%= link_to 'Leave a Review', new_reservation_review_path(reservation), class: 'btn btn-sm btn-info' %>
+                <% end %>
               </td>
             </tr>
             <!-- Modal -->

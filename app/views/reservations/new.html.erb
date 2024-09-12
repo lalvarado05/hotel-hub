@@ -1,4 +1,4 @@
-<% content_for :title, "Confirm Your Reservation" %>
+<% content_for :title, "Confirm reservation" %>
 <div class="container my-5">
   <!-- Room Information and Cost Summary Section -->
   <div class="row">
@@ -67,12 +67,30 @@
       </div>
     </div>
   </div>
-  <!-- Comment Section -->
+  <!-- Reviews Section -->
   <div class="bg-light mt-4 p-4 rounded shadow-sm" style="background-color: #f8cdd6;">
-    <h4 class="mb-3" style="color: #4d4d4d;">Comments Section</h4>
-    <p class="text-muted">TEST, comment will go here later with their responses</p>
+    <h4 class="mb-3" style="color: #4d4d4d;">Reviews</h4>
+    <% if @room.reviews.any? %>
+      <% @room.reviews.each do |review| %>
+        <div class="mb-3">
+          <p class="text-dark">
+            <strong><%= review.user.first_name %></strong> rated
+            <%= render 'shared/star_rating', rating: review.rating %>
+          </p>
+          <p class="text-muted"><%= review.comment %></p>
+          <% if review.response.present? %>
+            <div class="ml-4 p-2 bg-light border rounded">
+              <p class="mb-1"><strong>Admin Response:</strong></p>
+              <p class="text-muted"><%= review.response.comment %></p>
+            </div>
+          <% end %>
+          <hr>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-muted">No reviews for this room yet. Be the first to leave a review!</p>
+    <% end %>
   </div>
-  <!-- Cancellation Policy Section -->
   <!-- Cancellation Policy Section -->
   <div class="bg-light mt-4 p-4 rounded shadow-sm" style="background-color: #f8cdd6;">
     <h4 class="mb-3" style="color: #4d4d4d;">Cancellation Policy</h4>

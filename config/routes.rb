@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :responses
-  resources :reviews
+  resources :reviews, only: [:index, :show, :edit, :update, :destroy]
   resources :room_beds
   resources :room_services
   resources :beds
@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
   end
   resources :reservations do
+    resources :reviews, only: [:index, :new, :create]  # Add index action
     member do
       patch :cancel
       patch :check_in

@@ -6,6 +6,7 @@ class Room < ApplicationRecord
   has_many :beds, through: :room_beds
 
   has_many :reservations, dependent: :destroy
+  has_many :reviews, through: :reservations
 
   has_one_attached :image
 
@@ -24,7 +25,13 @@ class Room < ApplicationRecord
     def capacity
       beds.sum(:capacity)
     end
-
+    def average_rating
+      if reviews.any?
+        reviews.average(:rating).to_f.round(1)
+      else
+        0
+      end
+    end
     private
 
     def reasonable_price
@@ -32,6 +39,7 @@ class Room < ApplicationRecord
         errors.add(:price, "is too high, please provide a reasonable price")
       end
     end
+
 
 
 
