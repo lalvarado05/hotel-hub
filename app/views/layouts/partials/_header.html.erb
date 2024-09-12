@@ -4,9 +4,6 @@
       <%= image_tag("sakura.png", alt: "Sakura Stay", class: "img-fluid", style: "width: 60px; height: auto; margin-right: 10px;") %>
       <span class="text-light" style="font-family: 'Kosugi Maru', sans-serif; font-size: 1.8rem;">Sakura Stay</span>
     <% end %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
@@ -24,38 +21,42 @@
           <li class="nav-item">
             <%= link_to "Users", users_path, class: "nav-link text-light-grey" %>
           </li>
-        <% end %>
-      </ul>
-      <ul class="navbar-nav ms-auto">
-        <% if user_signed_in? %>
           <li class="nav-item">
-            <p class="nav-link mx-2 mb-0"></i>Welcome <strong><%= current_user.full_name %></strong></p>
-        </li>
-      <% end %>
-      <% if user_signed_in? %>
-        <li class="nav-item">
-          <%= link_to edit_user_registration_path, class: "nav-link text-light-grey" do %>
-            <i class="fas fa-user me-2"></i>Profile
-          <% end %>
-        </li>
-        <li class="nav-item">
-          <%= button_to destroy_user_session_path, method: :delete, class: "nav-link btn btn-link text-light-grey" do %>
-            <i class="fas fa-sign-out-alt me-2"></i>Log Out
-          <% end %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <%= link_to new_user_session_path, class: "nav-link text-light-grey" do %>
-            <i class="fas fa-sign-in-alt me-2"></i>Sign In
-          <% end %>
-        </li>
-        <li class="nav-item">
-          <%= link_to new_user_registration_path, class: "nav-link text-light-grey" do %>
-            <i class="fas fa-user-plus me-2"></i>Sign Up
-          <% end %>
+            <%= link_to "Reviews", reviews_path, class: "nav-link text-light-grey" %>
+          </li>
         </li>
       <% end %>
     </ul>
-  </div>
+    <ul class="navbar-nav ms-auto">
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <p class="nav-link mx-2 mb-0"></i>Welcome <strong><%= current_user.first_name %></strong></p>
+      </li>
+    <% end %>
+    <% if user_signed_in? %>
+      <li class="nav-item">
+        <%= link_to edit_user_registration_path, class: "nav-link text-light-grey" do %>
+          <i class="fas fa-user me-2"></i>Profile
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= button_to destroy_user_session_path, method: :delete, class: "nav-link btn btn-link text-light-grey" do %>
+          <i class="fas fa-sign-out-alt me-2"></i>Log Out
+        <% end %>
+      </li>
+    <% else %>
+      <li class="nav-item">
+        <%= link_to new_user_session_path, class: "nav-link text-light-grey" do %>
+          <i class="fas fa-sign-in-alt me-2"></i>Sign In
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to new_user_registration_path, class: "nav-link text-light-grey" do %>
+          <i class="fas fa-user-plus me-2"></i>Sign Up
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
 </div>
 </nav>

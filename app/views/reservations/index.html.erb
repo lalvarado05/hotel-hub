@@ -34,7 +34,7 @@
                 <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#infoModal-<%= reservation.id %>">
                   Details
                 </button>
-                <% if current_user.admin? || (current_user == reservation.user && Date.today < reservation.check_in_date && reservation.status == 'booked') %>
+                <% if (current_user.admin? && reservation.status == 'booked') || (current_user == reservation.user && Date.today < reservation.check_in_date && reservation.status == 'booked') %>
                   <%= link_to 'Cancel', cancel_reservation_path(reservation), class: 'btn btn-sm btn-danger', data: { turbo_method: :patch, confirm: 'Are you sure you want to cancel this reservation?' } %>                <% end %>
                 <% if current_user.admin? %>
                   <% if reservation.status == 'booked' %>

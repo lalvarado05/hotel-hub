@@ -1,22 +1,14 @@
-<div id="<%= dom_id review %>">
-  <p>
-    <strong>User:</strong>
-    <%= review.user_id %>
-  </p>
-
-  <p>
-    <strong>Rating:</strong>
-    <%= review.rating %>
-  </p>
-
-  <p>
-    <strong>Comment:</strong>
-    <%= review.comment %>
-  </p>
-
-  <p>
-    <strong>Display:</strong>
-    <%= review.display %>
-  </p>
-
-</div>
+<tr id="<%= dom_id review %>">
+  <td><%= review.user.full_name %></td>
+  <td><%= review.rating %> / 5</td>
+  <td><%= truncate(review.comment, length: 50) %></td>
+  <td><%= review.display ? "Yes" : "No" %></td>
+  <td>
+    <%= link_to review.display ? 'Disable' : 'Enable', toggle_display_review_path(review), method: :patch, class: 'btn btn-sm btn-warning' %>
+    <% if review.response.nil? %>
+      <%= link_to 'Respond', new_review_response_path(review), class: 'btn btn-sm btn-primary' %>
+    <% end %>
+    <%= link_to 'Edit', edit_review_path(review), class: 'btn btn-sm btn-secondary' %>
+    <%= link_to 'Delete', review_path(review), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+  </td>
+</tr>

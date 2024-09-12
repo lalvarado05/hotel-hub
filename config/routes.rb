@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
+  # Responses routes
   resources :responses
-  resources :reviews, only: [:index, :show, :edit, :update, :destroy]
+
+  # Reviews routes with nested responses routes
+  resources :reviews, only: [:index, :show, :edit, :update, :destroy] do
+    member do
+      patch :toggle_display
+    end
+    resources :responses, only: [:new, :create]
+  end
   resources :room_beds
   resources :room_services
   resources :beds

@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: %i[ show edit update destroy ]
+  before_action :set_review, only: %i[ show edit update destroy toggle_display]
   before_action :set_reservation, only: %i[ new create ]
   before_action :ensure_checked_out_reservation, only: %i[ new create ]
 
@@ -25,7 +25,6 @@ class ReviewsController < ApplicationController
   def create
     @review = @reservation.build_review(review_params)
     @review.user = current_user
-  
     respond_to do |format|
       if @review.save
         format.html { redirect_to review_url(@review), notice: "Review was successfully created." }
@@ -58,6 +57,12 @@ class ReviewsController < ApplicationController
       format.html { redirect_to reviews_url, notice: "Review was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  #This is a custom route that toggles the display attribute of a review
+  def toggle_display
+    @review.update(display: !@review.display)
+    redirect_to reviews_path, notice: "Review display status updated."
   end
 
   private
