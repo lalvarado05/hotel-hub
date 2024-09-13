@@ -64,19 +64,24 @@
     <h4 class="mb-3" style="color: #4d4d4d;">Reviews</h4>
     <% if @room.reviews.any? %>
       <% @room.reviews.each do |review| %>
-        <div class="mb-3">
-          <p class="text-dark">
-            <strong><%= review.user.first_name %></strong> rated
-            <%= render 'shared/star_rating', rating: review.rating %>
-          </p>
-          <p class="text-muted"><%= review.comment %></p>
+        <div class="mb-3 p-3 bg-white rounded shadow-sm" style="border: 1px solid #ddd;">
+          <div class="mb-3">
+            <p class="text-dark">
+              <strong><%= review.user.first_name %></strong>
+              <%= render 'shared/star_rating', rating: review.rating %>
+            </p>
+            <div class="p-3 bg-light rounded d-inline-block" style="border-radius: 20px; background-color: #CF9ECD; max-width: 75%;">
+              <p class="mb-0 text-muted"><%= review.comment %></p>
+            </div>
+          </div>
           <% if review.response.present? %>
-            <div class="ml-4 p-2 bg-light border rounded">
-              <p class="mb-1"><strong>Admin Response:</strong></p>
-              <p class="text-muted"><%= review.response.comment %></p>
+            <div class="text-end mt-2">
+              <div class="p-3 bg-light rounded d-inline-block" style="border-radius: 20px; background-color: #A27AA1; max-width: 75%; text-align: left;">
+                <p class="mb-1"><strong>Sakura Stay:</strong> <span class="mx-3 text-muted"><%= review.response.comment %></span></p>
+                <p class="mb-0 text-muted"></p>
+              </div>
             </div>
           <% end %>
-          <hr>
         </div>
       <% end %>
     <% else %>

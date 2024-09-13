@@ -1,10 +1,11 @@
 <tr id="<%= dom_id review %>">
-  <td><%= review.user.full_name %></td>
+  <td><%= review.id %></td>
+  <td><%= truncate(review.user.full_name, length: 25) %></td>
+  <td><%= review.reservation.room.name %></td>
   <td><%= review.rating %> / 5</td>
-  <td><%= truncate(review.comment, length: 50) %></td>
+  <td><%= truncate(review.comment, length: 30) %></td>
   <td><%= review.display ? "Yes" : "No" %></td>
   <td>
-    <%= link_to review.display ? 'Disable' : 'Enable', toggle_display_review_path(review), method: :patch, class: 'btn btn-sm btn-warning' %>
     <% if review.response.nil? %>
       <%= link_to 'Respond', new_review_response_path(review), class: 'btn btn-sm btn-primary' %>
     <% end %>

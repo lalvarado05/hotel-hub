@@ -1,24 +1,25 @@
-<div class="container" style="background-color: #d3d3d3; padding: 20px; font-family: Arial, sans-serif;">
-  <div class="header" style="text-align: center;">
-    <img src="https://i.imgur.com/2vcp5Cw.png" alt="Sakura Stay Logo" style="width: 150px; height: auto;" />
+<div class="content" style="color: #333;">
+  <h1 style="text-align: center;">Your Reservation is Confirmed!</h1>
+  <p>Dear <strong><%= @user.first_name %> <%= @user.last_name %></strong>,</p>
+  <p>We’re thrilled to inform you that your reservation has been successfully created at Sakura Stay.</p>
+  <div style="text-align: center; margin: 30px 0;">
+    <h2 style="font-weight: bold;">Reservation Code: </h2>
+    <h3><%= @reservation_code %></h3>
   </div>
-  <div class="content" style="color: #333;">
-    <h1 style="color: #f8cdd6; text-align: center;">Your Reservation is Confirmed!</h1>
-    <p>Dear <strong><%= @user.first_name %> <%= @user.last_name %></strong>,</p>
-    <p>We’re thrilled to inform you that your reservation <strong>(Code: <%= @reservation_code %>)</strong> has been successfully created at Sakura Stay.</p>
-    <p>Your stay is reserved and we are excited to host you. If you have any questions or special requests, feel free to reach out to us.</p>
-    <p style="text-align: center;">
-      <a href="mailto:support@sakurastay.com" class="btn" style="color: #ffffff; background-color: #333333; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Contact Support</a>
-    </p>
-    <p style="text-align: center;">
-      <a href="http://127.0.0.1:3000/rooms/search" class="btn" style="color: #ffffff; background-color: #f8cdd6; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visit us</a>
-    </p>
-    <p>We look forward to welcoming you!</p>
-    <p>Best regards,</p>
-    <p>The Sakura Stay Team</p>
-  </div>
-  <div class="footer" style="text-align: center; margin-top: 20px; color: #555;">
-    <p>© 2024 Sakura Stay. All rights reserved.</p>
-    <p>123 Sakura St, Tokyo, Japan</p>
-  </div>
+  <p>Here are your reservation details:</p>
+  <ul>
+    <li><strong>Room:</strong> <%= @reservation.room.name %></li>
+    <li><strong>Check-in Date:</strong> <%= @reservation.check_in_date.strftime("%B %d, %Y") %></li>
+    <li><strong>Check-out Date:</strong> <%= @reservation.check_out_date.strftime("%B %d, %Y") %></li>
+  </ul>
+  <p>Your stay is reserved and we are excited to host you. If you have any questions or special requests, feel free to reach out to us.</p>
+  <p>We look forward to welcoming you!</p>
+  <p>Best regards,</p>
+  <p>The Sakura Stay Team</p>
+  <p style="text-align: center;">
+    <a href="mailto:support@sakurastay.com" class="btn" style="color: #ffffff; background-color: #333333; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Contact Support</a>
+  </p>
+  <p style="text-align: center;">
+    <a href="http://127.0.0.1:3000/reservations" class="btn" style="color: #ffffff; background-color: #333333; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View Reservation</a>
+  </p>
 </div>

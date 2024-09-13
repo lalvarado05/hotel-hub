@@ -3,10 +3,7 @@ Rails.application.routes.draw do
   resources :responses
 
   # Reviews routes with nested responses routes
-  resources :reviews, only: [:index, :show, :edit, :update, :destroy] do
-    member do
-      patch :toggle_display
-    end
+  resources :reviews do
     resources :responses, only: [:new, :create]
   end
   resources :room_beds

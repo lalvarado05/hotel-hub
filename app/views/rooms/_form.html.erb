@@ -28,12 +28,14 @@
         </div>
         <div class="mb-3">
           <%= form.label :beds, class: "form-label" %><br />
-          <%= collection_check_boxes(:room, :bed_ids, @beds, :id, :name) do |b| %>
-            <div class="form-check">
-              <%= b.check_box(class: "form-check-input") %>
-              <%= b.label(class: "form-check-label") %>
-            </div>
-          <% end %>
+          <div class="row">
+            <%= collection_check_boxes(:room, :bed_ids, @beds, :id, :name) do |b| %>
+              <div class="col-md-6 form-check mb-2">
+                <%= b.check_box(class: "form-check-input") %>
+                <%= b.label(class: "form-check-label") %>
+              </div>
+            <% end %>
+          </div>
         </div>
         <div class="mb-3">
           <%= form.label :services, class: "form-label" %><br />

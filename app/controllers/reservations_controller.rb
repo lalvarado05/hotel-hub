@@ -101,6 +101,8 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       if current_user.admin? || (current_user == @reservation.user && Date.today < @reservation.check_in_date)
         if @reservation.update(status: 'cancelled')
+          ReservationMailer.cancel_reservation_user(@reservation, current_user).deliver_now
+          ReservationMailer.cancel_reservation_admins(@reservation, current_user).deliver_now
           format.html { redirect_to reservations_path, notice: "Reservation has been cancelled." }
           format.json { render :show, status: :ok, location: @reservation }
         else

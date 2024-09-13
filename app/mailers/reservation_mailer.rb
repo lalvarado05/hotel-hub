@@ -13,5 +13,21 @@ class ReservationMailer < ApplicationMailer
     mail(to: 'alvaradoarias05@gmail.com', subject: 'A new reservation was created')
   end
 
+  def cancel_reservation_user(reservation, user)
+    @reservation = reservation
+    @user = user
+    @reservation_code = reservation.confirmation_code
+    mail(to: @user.email, subject: "Reservation #{@reservation.id} was cancelled")
+  end
+
+  def cancel_reservation_admins(reservation, user)
+    @reservation = reservation
+    @user = user
+    mail(to: 'alvaradoarias05@gmail.com', subject: 'A reservation was cancelled')
+  end
+
+
+
+
 end
 
