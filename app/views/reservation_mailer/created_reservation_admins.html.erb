@@ -1,0 +1,16 @@
+<div class="content" style="color: #333;">
+  <h1 style="text-align: center;">New Reservation Created!</h1>
+  <p>A new reservation has been successfully created.</p>
+  <p>Reservation details:</p>
+  <ul>
+    <li><strong>Reservation ID:</strong> <%= @reservation.id %></li>
+    <li><strong>Guest Name:</strong> <%= @user.first_name %> <%= @user.last_name %></li>
+    <li><strong>Check-in Date:</strong> <%= @reservation.check_in_date %></li>
+    <li><strong>Check-out Date:</strong> <%= @reservation.check_out_date %></li>
+  </ul>
+  <p>Best regards,</p>
+  <p>The Sakura Stay Team</p>
+  <p style="text-align: center;">
+    <a href="http://127.0.0.1:3000/reservations" class="btn" style="color: #ffffff; background-color: #333333; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View Reservation</a>
+  </p>
+</div>

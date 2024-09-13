@@ -39,7 +39,7 @@ class ReservationsController < ApplicationController
     @reservation.user = current_user
     @reservation.room = Room.find(params[:reservation][:room_id])
     @reservation.status = "booked"
-    @reservation.confirmation_code = "#{@reservation.user.id}-#{@reservation.room.id}-#{Date.today.strftime('%Y%m%d')}"
+
 
     # Capture check-in, check-out, and payment details
     @check_in_date = params[:reservation][:check_in_date]
@@ -54,10 +54,11 @@ class ReservationsController < ApplicationController
 
       if payment_errors == true
         if @reservation.save
-          format.html { redirect_to reservation_url(@reservation), notice: "Reservation was successfully created." }
+          ReservationMailer.created_reservation_user(@reservation, current_user).deliver_now
+          ReservationMailer.created_reservation_admins(@reservation, current_user).deliver_now
+          format.html { redirect_to reservations_url, notice: "Reservation was successfully created." }
           format.json { render :show, status: :created, location: @reservation }
         else
-
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @reservation.errors, status: :unprocessable_entity }
         end
@@ -74,7 +75,7 @@ class ReservationsController < ApplicationController
   def update
     respond_to do |format|
       if @reservation.update(reservation_params)
-        format.html { redirect_to reservation_url(@reservation), notice: "Reservation was successfully updated." }
+        format.html { redirect_to reservations_url, notice: "Reservation was successfully updated." }
         format.json { render :show, status: :ok, location: @reservation }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -100,6 +101,8 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       if current_user.admin? || (current_user == @reservation.user && Date.today < @reservation.check_in_date)
         if @reservation.update(status: 'cancelled')
+          ReservationMailer.cancel_reservation_user(@reservation, current_user).deliver_now
+          ReservationMailer.cancel_reservation_admins(@reservation, current_user).deliver_now
           format.html { redirect_to reservations_path, notice: "Reservation has been cancelled." }
           format.json { render :show, status: :ok, location: @reservation }
         else

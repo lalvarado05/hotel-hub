@@ -5,8 +5,8 @@
   </div>
   <% if @reservations.any? %>
     <div class="table-responsive card shadow-sm p-4 bg-light" data-controller="tables">
-      <table class="table table-striped table-hover">
-        <thead>
+      <table class="table  table-hover  ">
+        <thead >
           <tr>
             <th>Reservation ID</th>
             <th>Room</th>
@@ -34,11 +34,11 @@
                 <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#infoModal-<%= reservation.id %>">
                   Details
                 </button>
-                <% if current_user.admin? || (current_user == reservation.user && Date.today < reservation.check_in_date && reservation.status == 'booked') %>
+                <% if (current_user.admin? && reservation.status == 'booked' && Date.today < reservation.check_in_date) || (current_user == reservation.user && Date.today < reservation.check_in_date && reservation.status == 'booked') %>
                   <%= link_to 'Cancel', cancel_reservation_path(reservation), class: 'btn btn-sm btn-danger', data: { turbo_method: :patch, confirm: 'Are you sure you want to cancel this reservation?' } %>                <% end %>
                 <% if current_user.admin? %>
-                  <% if reservation.status == 'booked' %>
-                    <%= link_to 'Check In', check_in_reservation_path(reservation), data: { turbo_method: :patch}, class: 'btn btn-sm btn-success' %>
+                  <% if (reservation.status == 'booked' && reservation.check_in_date == Date.today) %>
+                    <%= link_to 'Check In', check_in_reservation_path(reservation), data: { turbo_method: :patch }, class: 'btn btn-sm btn-success' %>
                   <% end %>
                   <% if reservation.status == 'checked_in' %>
                     <%= link_to 'Check Out', check_out_reservation_path(reservation), data: { turbo_method: :patch}, class: 'btn btn-sm btn-warning' %>
@@ -46,6 +46,9 @@
                   <% if reservation.status == 'booked' %>
                     <%= link_to 'No Show', no_show_reservation_path(reservation), data: { turbo_method: :patch}, class: 'btn btn-sm btn-secondary' %>
                   <% end %>
+                <% end %>
+                <% if current_user == reservation.user && reservation.status == 'checked_out' && reservation.review.nil? %>
+                  <%= link_to 'Leave a Review', new_reservation_review_path(reservation), class: 'btn btn-sm btn-info' %>
                 <% end %>
               </td>
             </tr>

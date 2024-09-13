@@ -1,0 +1,44 @@
+<div class="bg-light p-4 rounded shadow-sm form-group">
+  <%= form_with url: search_rooms_path, method: :get, local: true, data: { turbo_frame: 'room_search' }, class: "d-flex flex-wrap align-items-center gap-3" do |form| %>
+    <!-- Date Range -->
+    <div class="col-lg-5 mb-3" data-controller="date-picker">
+      <%= label_tag :date_range, "When will you visit us?", class: "font-weight-bold text-pink mb-2 text-lg" %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text h-100"><i class="fas fa-calendar-alt"></i></span>
+        </div>
+        <%= text_field_tag :date_range, "#{@check_in_date} to #{@check_out_date}", id: "date_range", class: "form-control", placeholder: "Choose dates" %>
+      </div>
+    </div>
+    <!-- Travelers -->
+    <div class="col-lg-2 mb-3">
+      <%= form.label :guest_amount, "Travelers", class: "font-weight-bold text-pink mb-2 text-lg" %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text h-100"><i class="fas fa-users"></i></span>
+        </div>
+        <%= form.number_field :guest_amount, value: @guest_amount, class: "form-control", min: 1, placeholder: "Travelers" %>
+      </div>
+    </div>
+    <!-- Sort By -->
+    <div class="col-lg-3 mb-3 pt-4">
+      <%= form.label :sort_by, "Sort by", class: "font-weight-bold text-pink text-lg" %>
+      <%= form.select :sort_by, options_for_select([
+        ["Price (Low to High)", "price_asc"],
+        ["Price (High to Low)", "price_desc"],
+        ["Capacity (Low to High)", "capacity_asc"],
+        ["Capacity (High to Low)", "capacity_desc"],
+        ["Rating (Low to High)", "rating_asc"],
+        ["Rating (High to Low)", "rating_desc"] ], selected: params[:sort_by]), class: "form-control" %>
+    </div>
+    <!-- Submit Button -->
+    <div class="col-lg-1 mb-3 pt-4">
+      <button type="submit" class="btn btn-primary w-100" style="background-color: #ff85a2; border-color: #ff85a2;">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    <!-- Need to save this for filter, please work -->
+    <%= form.hidden_field :price_range, value: params[:price_range] %>
+    <%= form.hidden_field :services, value: params[:services] %>
+  <% end %>
+</div>

@@ -11,9 +11,10 @@ class Ability
 
     # Additional permissions for logged in users
     if user.client?
-
-      can :create, Reservation                  # Allow clients to create reservations
-      can :read, Reservation, user_id: user.id  # Allow users to read their own reservations
+      can :create, Review                         # Allow users to create reviews for their own reservations
+      can :cancel, Reservation, user_id: user.id  # Allow users to cancel their own reservations
+      can :create, Reservation                    # Allow clients to create reservations
+      can :read, Reservation, user_id: user.id    # Allow users to read their own reservations
     end
 
     # Additional permissions for admin users

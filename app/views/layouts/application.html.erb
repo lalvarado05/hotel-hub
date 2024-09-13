@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Hotel Hub" %></title>
+    <title><%= content_for(:title) || "Sakura Stay" %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
     <link rel="manifest" href="/manifest.json">
+    <%= favicon_link_tag 'sakura-icon.svg', type: 'image/svg+xml' %>
+    <!--
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+     -->
     <!-- Load CSS -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <!-- JQUERY -->
@@ -25,13 +28,21 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/1becd6dbf1.js" crossorigin="anonymous"></script>
+    <!-- Popper.js (for dropdowns and tooltips) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- Popper.js (for dropdowns and tooltips) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Import Map -->
     <%= javascript_importmap_tags %>
   </head>
   <body class="d-flex flex-column min-vh-100">
     <%= render "layouts/partials/header" %>
-    <div class="container container-main flex-grow-1">
+    <div class="container container-main flex-grow-1" data-controller="spinner">
       <!-- Flash Messages -->
       <div class="position-relative">
         <% flash.each do |key, value| %>
@@ -40,6 +51,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         <% end %>
+      </div>
+      <div id="loading-spinner" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+        <img src="<%= asset_path('spinner.gif') %>" alt="Loading...">
       </div>
       <!-- Main Content -->
       <%= yield %>

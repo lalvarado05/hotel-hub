@@ -1,32 +1,32 @@
-<%= form_with(model: response) do |form| %>
-  <% if response.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(response.errors.count, "error") %> prohibited this response from being saved:</h2>
-
-      <ul>
-        <% response.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<div class="card-body">
+  <h3 class="card-title text-center mb-4">Response Details</h3>
+  <%= form_with(model: [@review, response], local: true) do |form| %>
+    <% if response.errors.any? %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading"><%= pluralize(response.errors.count, "error") %> prohibited this response from being saved:</h4>
+        <ul>
+          <% response.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    <div class="mb-3">
+      <%= form.label :user_id, "User", class: "form-label" %>
+      <p class="form-control"><%= current_user.first_name %> <%= current_user.last_name %></p>
+    </div>
+    <div class="mb-3">
+      <%= form.label :review_id, "Review ID", class: "form-label" %>
+      <p class="form-control"><%= review.id %>: <%= review.comment %></p>
+      <%= form.hidden_field :review_id, value: review.id %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :comment, "Comment", class: "form-label" %>
+      <%= form.text_area :comment, class: "form-control", rows: 5 %>
+    </div>
+    <div class="d-grid">
+      <%= form.submit "Save Response", class: "btn btn-primary" %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :review_id, style: "display: block" %>
-    <%= form.text_field :review_id %>
-  </div>
-
-  <div>
-    <%= form.label :comment, style: "display: block" %>
-    <%= form.text_area :comment %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

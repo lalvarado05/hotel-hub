@@ -1,8 +1,6 @@
-<% content_for :title, "Confirm Your Reservation" %>
+<% content_for :title, "Confirm reservation" %>
 <div class="container my-5">
-  <!-- Room Information and Cost Summary Section -->
   <div class="row">
-    <!-- Room Information Section -->
     <div class="col-md-8">
       <div class="bg-light rounded shadow-sm p-4" style="background-color: #f8cdd6;">
         <h2 class="text-center mb-4" style="color: #4d4d4d;">Your Stay at Sakura Stay</h2>
@@ -36,44 +34,60 @@
         </div>
       </div>
     </div>
-    <!-- Reservation Summary Section -->
     <div class="col-md-4">
       <div class="bg-light rounded shadow-sm p-4" style="background-color: #f8cdd6;">
         <h4 class="text-center mb-4" style="color: #4d4d4d;">Reservation Summary</h4>
-        <!-- Check-in and Check-out Section -->
         <div class="mb-3">
           <h5 class="mb-2" style="color: #4d4d4d;">Stay Dates</h5>
           <hr class="my-2">
           <p><strong>Check-in:</strong> <span class="float-right"><%= @check_in_date %></span></p>
           <p><strong>Check-out:</strong> <span class="float-right"><%= @check_out_date %></span></p>
         </div>
-        <!-- Pricing Section -->
         <div class="mb-3">
           <h5 class="mb-2" style="color: #4d4d4d;">Pricing Details</h5>
           <hr class="my-2">
           <p><strong>Price per night:</strong> <span class="float-right">$<%= @room.price %></span></p>
           <p><strong>Total nights:</strong> <span class="float-right"><%= (@check_out_date.to_date - @check_in_date.to_date).to_i %></span></p>
         </div>
-        <!-- Total Cost Section -->
         <div class="mb-3">
           <h5 class="mb-2" style="color: #4d4d4d;">Total Cost</h5>
           <hr class="my-2">
           <p><strong>Total Cost:</strong> <span class="float-right">$<%= (@room.price * (@check_out_date.to_date - @check_in_date.to_date).to_i) %></span></p>
         </div>
-        <!-- Additional Information or Terms -->
         <div>
           <p class="text-muted small"><em>*Taxes and additional fees may apply.</em></p>
         </div>
       </div>
     </div>
   </div>
-  <!-- Comment Section -->
   <div class="bg-light mt-4 p-4 rounded shadow-sm" style="background-color: #f8cdd6;">
-    <h4 class="mb-3" style="color: #4d4d4d;">Comments Section</h4>
-    <p class="text-muted">TEST, comment will go here later with their responses</p>
+    <h4 class="mb-3" style="color: #4d4d4d;">Reviews</h4>
+    <% if @room.reviews.any? %>
+      <% @room.reviews.each do |review| %>
+        <div class="mb-3 p-3 bg-white rounded shadow-sm" style="border: 1px solid #ddd;">
+          <div class="mb-3">
+            <p class="text-dark">
+              <strong><%= review.user.first_name %></strong>
+              <%= render 'shared/star_rating', rating: review.rating %>
+            </p>
+            <div class="p-3 bg-light rounded d-inline-block" style="border-radius: 20px; background-color: #CF9ECD; max-width: 75%;">
+              <p class="mb-0 text-muted"><%= review.comment %></p>
+            </div>
+          </div>
+          <% if review.response.present? %>
+            <div class="text-end mt-2">
+              <div class="p-3 bg-light rounded d-inline-block" style="border-radius: 20px; background-color: #A27AA1; max-width: 75%; text-align: left;">
+                <p class="mb-1"><strong>Sakura Stay:</strong> <span class="mx-3 text-muted"><%= review.response.comment %></span></p>
+                <p class="mb-0 text-muted"></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-muted">No reviews for this room yet. Be the first to leave a review!</p>
+    <% end %>
   </div>
-  <!-- Cancellation Policy Section -->
-  <!-- Cancellation Policy Section -->
   <div class="bg-light mt-4 p-4 rounded shadow-sm" style="background-color: #f8cdd6;">
     <h4 class="mb-3" style="color: #4d4d4d;">Cancellation Policy</h4>
     <ul>
@@ -86,21 +100,23 @@
       <li>If you are planning to arrive after 8 PM, please contact the property in advance using the information on the booking confirmation.</li>
     </ul>
   </div>
-  <!-- Payment Information Section -->
   <div class="row mt-4">
     <div class="col-md-6 offset-md-3">
       <div class="bg-light p-4 rounded shadow-sm" style="background-color: #f8cdd6;">
         <h4 class="text-center" style="color: #4d4d4d;">Payment Information</h4>
+        <div class="text-center mb-3">
+          <%= image_tag "visa.png", alt: "Visa", style: "width: 50px; margin-right: 10px;" %>
+          <%= image_tag "mc.png", alt: "Mastercard", style: "width: 50px; margin-right: 10px;" %>
+          <%= image_tag "ae.png", alt: "American Express", style: "width: 50px;" %>
+        </div>
         <%= form_with model: @reservation, url: reservations_path, local: true do |form| %>
           <%= form.hidden_field :room_id, value: @room.id %>
           <%= form.hidden_field :check_in_date, value: @check_in_date %>
           <%= form.hidden_field :check_out_date, value: @check_out_date %>
-          <!-- Name on Card -->
           <div class="form-group">
             <%= label_tag :card_name, "Name on Card" %>
             <%= text_field_tag :card_name, params[:card_name], class: "form-control", required: true %>
           </div>
-          <!-- Card Number -->
           <div class="form-group">
             <%= label_tag :card_number, "Card Number" %>
             <%= text_field_tag :card_number, @card_number, class: "form-control", required: true, minlength: 16, maxlength: 16 %>
@@ -108,7 +124,6 @@
               <div class="text-danger"><%= @payment_errors[:card_number] %></div>
             <% end %>
           </div>
-          <!-- Expiration Date and Security Code -->
           <div class="row">
             <div class="col-md-6 form-group">
               <%= label_tag :exp_date, "Expiration Date (MM/YY)" %>
@@ -133,7 +148,6 @@
       </div>
     </div>
   </div>
-  <!-- Back to Home or Cancel -->
   <div class="text-center mt-4">
     <%= link_to "Cancel", root_path, class: "btn btn-danger" %>
   </div>

@@ -14,7 +14,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
     if resource.persisted?
       @user = User.find(resource.id)
-      UserMailer.new_user(@user).deliver_now
+      UserMailer.created_user(@user).deliver_now
+
     end
   end
 
