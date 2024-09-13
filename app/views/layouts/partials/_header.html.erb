@@ -16,13 +16,16 @@
         <% end %>
         <% if user_signed_in? && current_user.admin? %>
           <li class="nav-item">
-            <%= link_to "Rooms", rooms_path, class: "nav-link text-light-grey" %>
-          </li>
-          <li class="nav-item">
             <%= link_to "Users", users_path, class: "nav-link text-light-grey" %>
           </li>
           <li class="nav-item">
             <%= link_to "Reviews", reviews_path, class: "nav-link text-light-grey" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Rooms", rooms_path, class: "nav-link text-light-grey" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Beds", beds_path, class: "nav-link text-light-grey" %>
           </li>
         </li>
       <% end %>

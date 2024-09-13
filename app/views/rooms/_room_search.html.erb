@@ -55,7 +55,7 @@
               </div>
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <p class="mb-0"><strong>Price:</strong> <span style="color: #ff585d;">$<%= room.price %></span></p>
+                  <p class="mb-0"><strong>Price:</strong> <span style="color: #ff585d;">$<%= room.price %></span>/per night</p>
                 </div>
                 <div>
                   <%= link_to "Reserve Room", new_reservation_path(room_id: room.id, check_in_date: @check_in_date, check_out_date: @check_out_date), class: "btn btn-success", data: { turbo: false } %>

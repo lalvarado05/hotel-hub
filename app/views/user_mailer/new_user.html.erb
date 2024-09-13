@@ -1,11 +1,23 @@
-<div class="content">
-  <h1 style="color: #f8cdd6; text-align: center;">Welcome to Sakura Stay!</h1>
-  <p>Dear <strong><%= @user.first_name %> <%= @user.last_name %></strong>,</p>
-  <p>Thank you for joining our platform! We’re excited to have you as a part of the Sakura Stay family. Whether you're staying with us for business or leisure, we strive to make your experience unforgettable.</p>
-  <p>If you ever have any questions or need assistance, don’t hesitate to contact us. We're here to ensure that your stay is as comfortable and enjoyable as possible.</p>
-  <p style="text-align: center;">
-    <a href="mailto:support@sakurastay.com" class="btn">Contact Support</a>
-  </p>
-  <p>Best regards,</p>
-  <p>The Sakura Stay Team</p>
+<div class="container" style="background-color: #d3d3d3; padding: 20px; font-family: Arial, sans-serif;">
+  <div class="header" style="text-align: center;">
+    <img src="https://i.imgur.com/2vcp5Cw.png" alt="Sakura Stay Logo" style="width: 150px; height: auto;" />
+  </div>
+  <div class="content" style="color: #333;">
+    <h1 style="color: #f8cdd6; text-align: center;">Welcome to Sakura Stay!</h1>
+    <p>Dear <strong><%= @user.first_name %> <%= @user.last_name %></strong>,</p>
+    <p>Thank you for joining our platform! We’re excited to have you as a part of the Sakura Stay family. Whether you're staying with us for business or leisure, we strive to make your experience unforgettable.</p>
+    <p>If you ever have any questions or need assistance, don’t hesitate to contact us. We're here to ensure that your stay is as comfortable and enjoyable as possible.</p>
+    <p style="text-align: center;">
+      <a href="mailto:support@sakurastay.com" class="btn" style="color: #ffffff; background-color: #333333; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Contact Support</a>
+    </p>
+    <p style="text-align: center;">
+      <a href="http://127.0.0.1:3000/rooms/search" class="btn" style="color: #ffffff; background-color: #f8cdd6; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visit our page</a>
+    </p>
+    <p>Best regards,</p>
+    <p>The Sakura Stay Team</p>
+  </div>
+  <div class="footer" style="text-align: center; margin-top: 20px; color: #555;">
+    <p>© 2024 Sakura Stay. All rights reserved.</p>
+    <p>123 Sakura St, Tokyo, Japan</p>
+  </div>
 </div>

@@ -14,3 +14,9 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  .nav-item.separator {
+    border-left: 1px solid grey; /* The color of the line */
+    height: 100%; /* Adjust as needed */
+    margin: 0 10px; /* Space around the line */
+  }
