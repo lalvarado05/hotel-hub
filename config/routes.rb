@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+  post "/graphql", to: "graphql#execute"
   # Responses routes
   resources :responses
 
@@ -35,5 +39,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root to: "rooms#search"
+
+  if Rails.env.develpment?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
 
 end
