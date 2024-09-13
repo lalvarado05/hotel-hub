@@ -65,21 +65,10 @@
   <body>
     <div class="container">
       <div class="header">
-        <img src="https://i.imgur.com/2vcp5Cw.png" alt="Sakura Stay Logo" style="width: 150px; height: auto;">
+        <img src="https://i.imgur.com/2vcp5Cw.png" alt="Sakura Stay Logo">
       </div>
       <div class="content">
-        <h1>Welcome to Sakura Stay!</h1>
-        <p>Dear <strong><%= @user.first_name %> <%= @user.last_name %></strong>,</p>
-        <p>Thank you for joining our platform! We’re excited to have you as a part of the Sakura Stay family. Whether you're staying with us for business or leisure, we strive to make your experience unforgettable.</p>
-        <p>If you ever have any questions or need assistance, don’t hesitate to contact us. We're here to ensure that your stay is as comfortable and enjoyable as possible.</p>
-        <p style="text-align: center;">
-          <a href="mailto:support@sakurastay.com" class="btn">Contact Support</a>
-        </p>
-        <p style="text-align: center;">
-          <a href="http://127.0.0.1:3000/rooms/search" class="btn btn-primary">Visit our page</a>
-        </p>
-        <p>Best regards,</p>
-        <p>The Sakura Stay Team</p>
+        <%= yield %>
       </div>
       <div class="footer">
         <p>© 2024 Sakura Stay. All rights reserved.</p>

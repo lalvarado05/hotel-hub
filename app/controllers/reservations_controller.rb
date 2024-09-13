@@ -39,7 +39,7 @@ class ReservationsController < ApplicationController
     @reservation.user = current_user
     @reservation.room = Room.find(params[:reservation][:room_id])
     @reservation.status = "booked"
-    @reservation.confirmation_code = "#{@reservation.user.id}-#{@reservation.room.id}-#{Date.today.strftime('%Y%m%d')}"
+
 
     # Capture check-in, check-out, and payment details
     @check_in_date = params[:reservation][:check_in_date]
@@ -54,6 +54,8 @@ class ReservationsController < ApplicationController
 
       if payment_errors == true
         if @reservation.save
+          ReservationMailer.created_reservation_user(@reservation, current_user).deliver_now
+          ReservationMailer.created_reservation_admins(@reservation, current_user).deliver_now
           format.html { redirect_to reservations_url, notice: "Reservation was successfully created." }
           format.json { render :show, status: :created, location: @reservation }
         else

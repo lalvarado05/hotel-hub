@@ -1,31 +1,31 @@
-<footer class="bg-dark text-light py-4" style="background-color: #343a40;">
+<footer class="bg-dark text-light py-2" style="background-color: #343a40;">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-4 col-md-6 mb-4">
+    <div class="row m-0">
+      <div class="col-lg-4 col-md-6 mb-1">
         <h5 class="text-uppercase mb-3">About Us</h5>
         <p style="text-align: justify;">
           Sakura Stay is a serene getaway that combines Japanese tradition with modern comforts. Experience our exclusive services and personalized attention.
         </p>
       </div>
-      <div class="col-lg-2 col-md-6 mb-4">
-        <h5 class="text-uppercase mb-3">Quick Links</h5>
+      <div class="col-lg-2 col-md-6 mb-1">
+        <h5 class="text-uppercase mb-1">Quick Links</h5>
         <ul class="list-unstyled">
           <li><%= link_to "Home", root_path, class: "nav-link text-light-grey" %></li>
           <li><%= link_to "Rooms", search_rooms_path, class: "nav-link text-light-grey" %></li>
           <li><%= link_to "Services", services_path, class: "nav-link text-light-grey" %></li>
-          <%= link_to "Contact Us", "mailto:info@sakurastay.com", class: "nav-link text-light-grey" %>
+          <li><%= link_to "Contact Us", "mailto:info@sakurastay.com", class: "nav-link text-light-grey" %></li>
         </ul>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4">
-        <h5 class="text-uppercase mb-3">Contact Info</h5>
+      <div class="col-lg-3 col-md-6 mb-1">
+        <h5 class="text-uppercase mb-1">Contact Info</h5>
         <ul class="list-unstyled">
           <li><i class="fas fa-phone-alt me-2"></i> +123 456 7890</li>
           <li><i class="fas fa-envelope me-2"></i> info@sakurastay.com</li>
           <li><i class="fas fa-map-marker-alt me-2"></i> 123 Sakura St, Tokyo, Japan</li>
         </ul>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4">
-        <h5 class="text-uppercase mb-3">Follow Us</h5>
+      <div class="col-lg-3 col-md-6 mb-1">
+        <h5 class="text-uppercase mb-1">Follow Us</h5>
         <div class="d-flex">
           <%= link_to "https://www.facebook.com/HotelSakuraNapoli", class: "text-light me-3" do %>
             <i class="fab fa-facebook-f"></i>
@@ -42,8 +42,8 @@
         </div>
       </div>
     </div>
-    <div class="text-center py-3">
-      <p class="mb-0">&copy; 2024 Sakura Stay. All rights reserved.</p>
-    </div>
   </div>
 </footer>
+<div class="text-center py-1" style="color: white;background-color: #390520;">
+  <p class="mb-0"> &copy; 2024 Sakura Stay. All rights reserved.</p>
+</div>

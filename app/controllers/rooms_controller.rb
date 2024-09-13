@@ -210,7 +210,12 @@ class RoomsController < ApplicationController
       @rooms = @rooms.sort_by(&:capacity)
     when "capacity_desc"
       @rooms = @rooms.sort_by(&:capacity).reverse
+    when "rating_asc"
+      @rooms = @rooms.sort_by(&:average_rating)
+    when "rating_desc"
+      @rooms = @rooms.sort_by(&:average_rating).reverse
     end
+
   end
 
 

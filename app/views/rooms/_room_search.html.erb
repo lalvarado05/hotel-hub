@@ -1,4 +1,3 @@
-<!-- Rooms List Section -->
 <div class="col-md-9">
   <turbo-frame id="room_search">
     <% if @no_rooms_found %>
@@ -8,7 +7,7 @@
     <% else %>
       <div id="rooms">
         <% @rooms.each do |room| %>
-          <div class="row mb-4 bg-light rounded shadow-sm border position-relative" style="border-color: #f8cdd6; border-width: 3px; ">
+          <div class="row mb-4 bg-light rounded shadow-sm border position-relative" style="border-color: #f8cdd6; border-width: 3px;">
             <div class="col-md-4 p-0">
               <% if room.image.attached? %>
                 <%= image_tag room.image.variant(resize_to_fill: [400, 300]).processed, class: "img-fluid h-100 w-100", alt: room.name, style: 'object-fit: cover; height: 100%; border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem;' %>
@@ -18,46 +17,45 @@
                 </div>
               <% end %>
             </div>
-            <div class="col-md-8 p-3 d-flex flex-column justify-content-between">
+            <div class="col-md-8 p-4 d-flex flex-column justify-content-between">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <h5 class="mb-0"><%= room.name %></h5>
+                <h2 class="mb-0"><%= room.name %></h2>
                 <div class="d-flex align-items-center">
-                  <div class="d-flex align-items-center">
-                    <%= render 'shared/star_rating', rating: room.average_rating %>
-                  </div>
-                  <p class="ml-3 mb-0 text-muted" style="text-align: center;"><%= room.reviews.count %> reviews</p>
+                  <%= render 'shared/star_rating', rating: room.average_rating %>
+                  <p class="ml-3 ml-2 mb-0 text-muted"><%= room.reviews.count %> reviews</p>
                 </div>
               </div>
-              <div class="row mb-2">
-                <div class="col-md-12">
-                  <p><strong>Capacity:</strong> <%= room.capacity %> guests</p>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <h5><strong>Capacity:</strong></h5>
+                  <h6><%= room.capacity %> guests</h6>
                 </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-md-12">
-                  <p><strong>Beds:</strong></p>
-                  <ul class="list-inline">
+                <div class="col-md-4">
+                  <h5><strong>Beds:</strong></h5>
+                  <ul class="list-unstyled">
                     <% room.beds.each do |bed| %>
-                      <li class="list-inline-item badge bg-info text-dark"><%= bed.name %> (<%= bed.capacity %>)</li>
+                      <li><%= bed.name %> (<%= bed.capacity %>)</li>
+                    <% end %>
+                  </ul>
+                </div>
+                <div class="col-md-4">
+                  <h5><strong>Services:</strong></h5>
+                  <ul class="list-unstyled">
+                    <% room.services.sort_by(&:name).each do |service| %>
+                      <li><%= service.name %></li>
                     <% end %>
                   </ul>
                 </div>
               </div>
-              <div class="row mb-2">
-                <div class="col-md-12">
-                  <p><strong>Services:</strong></p>
-                  <ul class="list-inline">
-                    <% room.services.each do |service| %>
-                      <li class="list-inline-item badge bg-secondary"><%= service.name %></li>
-                    <% end %>
-                  </ul>
+              <div class="row my-4">
+                <div class="col d-flex justify-content-end">
+                  <p class="mb-0" style="font-size: 1.5rem; font-weight: bold;">
+                    <span>$<%= room.price %></span>/per night
+                  </p>
                 </div>
               </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <p class="mb-0"><strong>Price:</strong> <span style="color: #ff585d;">$<%= room.price %></span>/per night</p>
-                </div>
-                <div>
+              <div class="row">
+                <div class="col d-flex justify-content-end">
                   <%= link_to "Reserve Room", new_reservation_path(room_id: room.id, check_in_date: @check_in_date, check_out_date: @check_out_date), class: "btn btn-success", data: { turbo: false } %>
                 </div>
               </div>

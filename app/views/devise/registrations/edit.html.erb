@@ -16,8 +16,7 @@
         <%= f.text_field :phone_number, class: "form-control", required: true %>
       </div>
       <div class="mb-3">
-        <%= f.label :role, class: "form-label" %>
-        <%= f.select :role, options_for_select([['Admin', 'admin'], ['Client', 'client']]), {}, { class: "form-select", required: true } %>
+        <%= f.hidden_field :role, value: 'client' %>
       </div>
       <div class="mb-3">
         <%= f.label :email, class: "form-label" %>

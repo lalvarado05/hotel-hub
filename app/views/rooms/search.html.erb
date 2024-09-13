@@ -1,12 +1,11 @@
 <%= stylesheet_link_tag 'room_search', media: 'all' %>
 <% content_for :title, "Rooms" %>
-<div class="container my-3" data-controller="room">
+<div class="my-3" data-controller="room">
   <%= render partial: "rooms/filter_reservation", locals: { check_in_date: @check_in_date, check_out_date: @check_out_date, guest_amount: @guest_amount } %>
 </div>
 <div class="container mb-5">
   <div class="row">
     <%= render partial: "rooms/filter", locals: { services: @services, max_price: @max_price } %>
-    <!--  This is the turbo-frame that will be replaced when the user filters the rooms -->
     <%= render partial: "rooms/room_search", locals: { rooms: @rooms, no_rooms_found: @no_rooms_found, check_in_date: @check_in_date, check_out_date: @check_out_date, guest_amount: @guest_amount } %>
   </div>
 </div>
