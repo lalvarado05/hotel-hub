@@ -34,7 +34,9 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
-  
+  gem 'rspec-rails'            # Testing framework for Rails
+  gem 'factory_bot_rails'      # A library for setting up Ruby objects as test data
+  gem 'faker'
   # pry-byebug giving issues
   # gem 'pry-byebug', '~> 3.10', '>= 3.10.1'  # Adds step-by-step debugging and stack navigation capabilities to Pry
   gem 'byebug', '~> 11.1', '>= 11.1.3'
