@@ -20,7 +20,7 @@ gem 'sassc-rails'                         # Integrate SassC-Ruby into Rails
 
 gem "rails", "~> 7.2.1"
 gem "sprockets-rails"
-gem "pg", "~> 1.1"                        # PostgreSQL database adapter
+gem "pg", "~> 1.5"                        # PostgreSQL database adapter
 gem "puma", ">= 5.0"
 gem "importmap-rails"
 gem "turbo-rails"
