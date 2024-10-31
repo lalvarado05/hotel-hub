@@ -18,7 +18,7 @@ gem 'mini_magick'                         # Manipulate images with minimal use o
 gem "sidekiq", "~> 7.3"                   # Simple, efficient background processing for Ruby
 gem 'sassc-rails'                         # Integrate SassC-Ruby into Rails
 
-gem "rails", "~> 7.2.1"
+gem "rails", "~> 7.2.2"
 gem "sprockets-rails"
 gem "pg", "~> 1.1"                        # PostgreSQL database adapter
 gem "puma", ">= 5.0"
