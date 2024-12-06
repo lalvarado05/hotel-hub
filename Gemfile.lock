@@ -141,7 +141,7 @@ GEM
       activesupport (>= 6.1)
     graphiql-rails (1.10.1)
       railties
-    graphql (2.3.16)
+    graphql (2.4.6)
       base64
       fiber-storage
     htmlbeautifier (1.4.3)
@@ -392,7 +392,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   graphiql-rails
-  graphql (~> 2.3)
+  graphql (~> 2.4)
   htmlbeautifier
   image_processing (~> 1.13)
   importmap-rails
